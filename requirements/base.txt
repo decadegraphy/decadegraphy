@@ -49,3 +49,4 @@ redis>=2.10.5
 
 
 # Your custom requirements go here
+django-webpack-loader==0.5.0
