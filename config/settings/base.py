@@ -1,5 +1,5 @@
 """
-Django settings for tenyears project.
+Django settings for decadegraphy project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/dev/topics/settings/
@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (tenyears/config/settings/base.py - 3 = tenyears/)
-APPS_DIR = ROOT_DIR.path('tenyears')
+ROOT_DIR = environ.Path(__file__) - 3  # (decadegraphy/config/settings/base.py - 3 = decadegraphy/)
+APPS_DIR = ROOT_DIR.path('decadegraphy')
 
 # Load operating system environment variables and then prepare to use them
 env = environ.Env()
@@ -56,7 +56,7 @@ THIRD_PARTY_APPS = [
 # Apps specific for this project go here.
 LOCAL_APPS = [
     # custom users app
-    'tenyears.users.apps.UsersConfig',
+    'decadegraphy.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 ]
 
@@ -78,7 +78,7 @@ MIDDLEWARE = [
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'tenyears.contrib.sites.migrations'
+    'sites': 'decadegraphy.contrib.sites.migrations'
 }
 
 # DEBUG
@@ -111,7 +111,7 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='sqlite:///tenyears.db'),
+    'default': env.db('DATABASE_URL', default='sqlite:///decadegraphy.db'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -255,8 +255,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'tenyears.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'tenyears.users.adapters.SocialAccountAdapter'
+ACCOUNT_ADAPTER = 'decadegraphy.users.adapters.AccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'decadegraphy.users.adapters.SocialAccountAdapter'
 
 # Custom user app defaults
 # Select the correct user model

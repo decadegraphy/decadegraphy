@@ -8,10 +8,10 @@ module.exports = {
   entry: [
     //'webpack-dev-server/client?http://localhost:3000',
     //'webpack/hot/only-dev-server',
-    './tenyears/static/js/index'
+    './decadegraphy/static/js/index'
   ],
   output: {
-    path: path.resolve('./tenyears/static/webpack_bundles/'),
+    path: path.resolve('./decadegraphy/static/webpack_bundles/'),
     filename: '[name].dev.js'
   },
   module: {
