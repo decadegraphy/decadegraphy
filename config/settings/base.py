@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',  # registration
 
     'webpack_loader',
+    'rest_framework',
 ]
 
 # Apps specific for this project go here.
@@ -58,6 +59,8 @@ LOCAL_APPS = [
     # custom users app
     'decadegraphy.users.apps.UsersConfig',
     # Your stuff: custom apps go here
+    'restapi',
+    'campaigns',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

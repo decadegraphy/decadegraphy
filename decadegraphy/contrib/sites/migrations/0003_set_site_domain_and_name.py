@@ -13,7 +13,7 @@ def update_site_forward(apps, schema_editor):
     Site.objects.update_or_create(
         id=settings.SITE_ID,
         defaults={
-            'domain': 'example.com',
+            'domain': 'decadegraphy.com',
             'name': 'decadegraphy'
         }
     )
@@ -25,8 +25,8 @@ def update_site_backward(apps, schema_editor):
     Site.objects.update_or_create(
         id=settings.SITE_ID,
         defaults={
-            'domain': 'example.com',
-            'name': 'example.com'
+            'domain': 'decadegraphy.com',
+            'name': 'decadegraphy.com'
         }
     )
 
