@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build:dist": "webpack -p",
-    "start:dev": "webpack-dev-server",
+    "start:dev": "webpack-dev-server --open --hot --inline",
     "watch": "webpack --watch"
   }
 }

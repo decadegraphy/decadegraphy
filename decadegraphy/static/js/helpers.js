@@ -2,7 +2,7 @@ class Helpers {
   static getCookie (key) {
     let cookieString = document.cookie
     if (cookieString.length !== 0) {
-      let cookiePattern = new RegExp('(^|;)[\s]*' + key + '=([^;]*)'),
+      let cookiePattern = new RegExp(key + '=([^;]*)'),
         results = cookieString.match(cookiePattern) || []
 
       results.reverse()
@@ -30,6 +30,31 @@ class Helpers {
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
     }
     xhr.send(data)
+  }
+
+  static getJSON (URL, callback) {
+    let xhr = new XMLHttpRequest(),
+      response
+
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) {
+        return
+      } try {
+        response = JSON.parse(this.responseText)
+      } catch (e) {
+        response = null
+      } finally {
+        callback(response)
+      }
+    }
+    xhr.open('GET', URL)
+    xhr.send()
+  }
+
+  static getJSONP (url) {
+    let script = document.createElement('script')
+    script.setAttribute('src', url)
+    document.getElementsByTagName('head')[0].appendChild(script)
   }
 
   static serializeForm (form) {
@@ -66,4 +91,5 @@ class Helpers {
     return data
   }
 }
+
 export default Helpers

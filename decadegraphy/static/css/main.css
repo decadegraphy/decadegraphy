@@ -1,0 +1,130 @@
+body {
+    font-size: 15px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Headings */
+h1, h2, h3, th {
+    font-weight: 700;
+    margin: 0;
+    margin-top: 1.25em;
+    margin-bottom: 0.75em;
+}
+
+h1 {
+    font-size: 35px;
+    line-height: 42px;
+}
+
+h1:first-child {
+    margin-top: 0;
+}
+
+/* Body text */
+body, p, ul, ol, td {
+    font-family: Tahoma;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+form {
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+textarea,
+select {
+    margin-top: 5px;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    outline: 0;
+    color: #8a97a0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+}
+.places select{
+    width: 30%;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin: 0 10px 8px 0;
+}
+
+select {
+    padding: 6px;
+    height: 32px;
+    border-radius: 2px;
+}
+
+a.button, button {
+    padding: 19px 39px 18px 39px;
+    color: #fff;
+    background-color: #333;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 5px;
+
+    border: 1px solid #999;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+    margin-bottom: 10px;
+}
+
+fieldset {
+  margin-bottom: 30px;
+  border: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 18px;
+}
+
+.icon {
+    background-color: #303030;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 14px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    border-radius: 100%;
+}
+
+@media screen and (min-width: 480px) {
+
+    form {
+        max-width: 640px;
+    }
+}

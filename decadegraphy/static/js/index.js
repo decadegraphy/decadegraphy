@@ -1,12 +1,17 @@
 import { Router, Route } from 'react-router'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import createBrowserHistory from 'history/createBrowserHistory'
+import * as Campaign from './Campaign'
 
 import '../css/main.css'
 
-import createBrowserHistory from 'history/createBrowserHistory'
-
-import * as Campaign from './Campaign'
+// Global JSONP handle
+window.jsonp = new Proxy({}, {
+  get: (self, key) => {
+    return (data) => { window[key] = data }
+  }
+})
 
 const history = createBrowserHistory()
 
