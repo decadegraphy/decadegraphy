@@ -37,15 +37,13 @@ label { display: block; margin-bottom: 18px;}
 
 .icon { background-color: #303030; color: #fff; height: 30px; width: 30px; display: inline-block; font-size: 0.8em; margin-right: 14px; line-height: 30px; text-align: center; text-shadow: 0 1px 0 rgba(255,255,255,0.2); border-radius: 100%; }
 
+// global className
 .dg-enroll-title{ color: #333; font-size: 28px; text-align: center; }
 .dg-button{ display: block; width: 90px; line-height: 40px; border: 1px solid #666; color: #333; text-align: center; }
 
 .page-one{ width: 460px; margin: 0 auto; padding-left: 110px;
 	.subtitle{ color: #333; font-size: 16px; font-weight: normal; white-space: nowrap;
 		.notice{ margin-left: 80px; font-size: 13px; color: #199ED8; }
-	}
-	.form-item-group{
-
 	}
 	.dg-button{ margin: 70px auto 0; }
 }
