@@ -67,3 +67,5 @@ staticfiles/
 
 .cache/
 
+# webpack-log
+webpack-stats.json
