@@ -158,39 +158,39 @@ class SignUp extends React.Component {
   }
   render () {
     return (
-      <div>
-        <form ref="form">
-          <h1>DecadeGraphy拍摄计划报名</h1>
-          <div hidden={this.state.stepIndex !== 0}>
-            <h2>你想作为 _<span style={{textDecoration: 'underline'}}>{this.state.roles.map(role => this.state.roleNames[role - 1]).join(', ')}</span>_ 参与这个活动</h2>
+      <form ref="form">
+        <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
+        <div className="page-one" hidden={this.state.stepIndex !== 0}>
+          <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this.state.roles.map(role => this.state.roleNames[role - 1]).join(', ')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
+          <div className="form-item-group">
             <label><input type="checkbox" onClick={this._choiceRoles.bind(this, 1)} />摄影师，用图像记录其他推友</label>
             <label><input type="checkbox" onClick={this._choiceRoles.bind(this, 2)} />模特，让摄影师拍摄你的现在与未来</label>
             <label><input type="checkbox" onClick={this._choiceRoles.bind(this, 3)} />志愿者，作为活动的幕后人员</label>
-            <a className="button" hidden={this.state.roles.length === 0} onClick={e => this.setState({stepIndex: 1})}>下一步</a>
           </div>
+          <a className="dg-button" hidden={this.state.roles.length === 0} onClick={e => this.setState({stepIndex: 1})}>下一步</a>
+        </div>
 
-          <fieldset hidden={this.state.stepIndex === 0}>
-            <h2>作为{this.state.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
-            <label>Twitter ID:<input type="text" name="twitter_id" /></label>
-            <label>Email:<input type="email" name="email" /></label>
-            <label>密码:<input type="password" name="password" /></label>
+        <fieldset hidden={this.state.stepIndex === 0}>
+          <h2>作为{this.state.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
+          <label>Twitter ID:<input type="text" name="twitter_id" /></label>
+          <label>Email:<input type="email" name="email" /></label>
+          <label>密码:<input type="password" name="password" /></label>
 
-            <label>微信号:<input type="text" name="wechat_id" /></label>
-            <label>手机号:<input type="text" name="mobile" /></label>
+          <label>微信号:<input type="text" name="wechat_id" /></label>
+          <label>手机号:<input type="text" name="mobile" /></label>
 
-            <label>年龄:</label>
-            <select name="age">
-              {this.state.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
-            </select>
-            {[<ParticipantFields />, <PhotographerFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
+          <label>年龄:</label>
+          <select name="age">
+            {this.state.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
+          </select>
+          {[<ParticipantFields />, <PhotographerFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
 
-            <label>备注:<textarea></textarea></label>
-            <a className="button" onClick={e => this.setState({stepIndex: this.state.stepIndex - 1})}>上一步</a>
-            <a className="button" onClick={e => this.setState({stepIndex: this.state.stepIndex + 1})} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
-            <button onClick={this._submit.bind(this)} hidden={this.state.stepIndex !== this.state.roles.length}>提交报名，获取二维码</button>
-          </fieldset>
-        </form>
-      </div>
+          <label>备注:<textarea></textarea></label>
+          <a className="button" onClick={e => this.setState({stepIndex: this.state.stepIndex - 1})}>上一步</a>
+          <a className="button" onClick={e => this.setState({stepIndex: this.state.stepIndex + 1})} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
+          <button onClick={this._submit.bind(this)} hidden={this.state.stepIndex !== this.state.roles.length}>提交报名，获取二维码</button>
+        </fieldset>
+      </form>
     )
   }
 }
