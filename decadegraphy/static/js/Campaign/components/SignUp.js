@@ -2,35 +2,73 @@ import React from 'react'
 
 import Helpers from '../../helpers.js'
 
+let COUNTRIES = []
+Helpers.getJSON('http://res.cloudinary.com/dgcdn/raw/upload/v1502605220/countries.json', (response) => { COUNTRIES = response })
 class CountryCityComponent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       countries: [],
       regions: [],
-      citys: []
+      cities: []
     }
   }
   componentDidMount () {
     //
   }
   _selectPlace (e) {
-    //
+    let code = e.target.value,
+      name = e.target.name,
+      regions = [],
+      cnData
+
+    if (name === 'country') {
+      this.setState({regions: []})
+      if (code === 'cn') {
+        Helpers.getJSON('http://res.cloudinary.com/dgcdn/raw/upload/v1502605838/cn.regions.json', (response) => {
+          cnData = response
+
+          for (let province in cnData) {
+            regions.push({
+              code: province,
+              name: cnData[province].en,
+              cities: cnData[province].cities
+            })
+          }
+          this.setState({regions})
+        })
+      } else {
+        Helpers.getJSON('http://res.cloudinary.com/dgcdn/raw/upload/v1502605434/regions.json', (response) => {
+          regions = response.filter(r => r.country === code).map(r => { return {code: r.region.toLowerCase().replace(/ /g, '-'), name: r.region} })
+          this.setState({regions})
+        })
+      }
+    }
+
+    if (name === 'region') {
+      this.setState({cities: []})
+      if (this.refs.country.value === 'cn') {
+        this.setState({cities: Object.values(this.state.regions.filter(r => r.code === code)[0].cities)})
+      } else {
+        //
+      }
+    }
   }
+
   render () {
     return (
       <div className="places">
-        <select name="country">
-          <option>国家</option>
-          {this.state.countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+        <select ref="country" name="country" onChange={this._selectPlace.bind(this)}>
+          <option>国家/地区</option>
+          {COUNTRIES.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
         </select>
-        <select name="region">
+        <select name="region" onChange={this._selectPlace.bind(this)}>
           <option>省/州</option>
-          {this.state.regions.map(r => <option>{r.region}</option>)}
+          {this.state.regions.map(r => <option key={r.code} value={r.code}>{r.name}</option>)}
         </select>
         <select name="city">
           <option>市/县</option>
-          {this.state.citys.map(c => <option>{c.name}</option>)}
+          {this.state.cities.map((c, i) => <option key={i}>{c.en}</option>)}
         </select>
       </div>
     )
@@ -261,7 +299,7 @@ class SignUp extends React.Component {
       roleNames: ['摄影师', '模特', '志愿者'],
       roles: [],
       countries: [],
-      citys: []
+      cities: []
     }
   }
 
