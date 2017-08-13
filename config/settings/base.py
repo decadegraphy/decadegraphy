@@ -49,6 +49,8 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    'allauth.socialaccount.providers.twitter',  # enable twiiter
+
 
     'webpack_loader',
     'rest_framework',
@@ -260,6 +262,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 ACCOUNT_ADAPTER = 'decadegraphy.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'decadegraphy.users.adapters.SocialAccountAdapter'
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = None
 
 # Custom user app defaults
 # Select the correct user model

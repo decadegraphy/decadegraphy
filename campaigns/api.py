@@ -5,15 +5,18 @@ from rest_framework.response import Response
 
 from .models import Campaign, Applicant
 
+
 class CampaignSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Campaign
         fields = ['title',]
 
+
 class ApplicantSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Applicant
         fields = ['email', 'note', 'created_at']
+
 
 class ApplicantViewSet(viewsets.ModelViewSet):
     queryset = Applicant.objects.all()
