@@ -1,3 +1,11 @@
+# DecadeGraphy拍摄计划报名
+
+
+## 约定
+
+### css
+> css中'dg-'开头为全局复用样式
+
 ### Dev Howto
 
 #### run locally

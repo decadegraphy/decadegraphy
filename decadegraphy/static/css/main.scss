@@ -46,64 +46,66 @@ fieldset { margin-bottom: 30px; border: none; }
 
 // fill info
 .fill-role-info{ padding-left: 31%;
-	textarea{ width: 314px; height: 135px; border: 1px solid #dedede; vertical-align: text-top; }
-	.subtitle{ width: 98px; font-size: 16px; color: #333; font-weight: 400; text-align: right; white-space: nowrap; }
-	.field-name{ display: inline-block; width: 98px; margin-right: 20px; font-size: 13px; color: #333; font-weight: 400; text-align: right; 
-		&.special{ float: left; line-height: 30px; }
-	}
-	.optional-places{ position: relative; float: left; 
-		.places{ margin-bottom: 10px; }
-		.optional-places-action{ position: absolute; right: -88px; top: 0; }
-	}
-	.field{ width: 180px; line-height: 30px; font-size: 13px; }
-	.state-code{ width: 30px; line-height: 30px; margin: 0 1px; appearance: none; -webkit-appearance: none; vertical-align: bottom; }
-	.field-mobile{ width: 138px; }
-	.select-age{ width: 150px; height: 30px; border: 1px solid #666; background-color: #fff; 
-		option{ color: #333; }
-	}
-	.word-count{ padding-right: 29%; text-align: right; }
-	.bind-twitter{ box-sizing: border-box; width: 127px; height: 35px; border: 1px solid #333; padding-left: 40px; font-size: 13px; }
-	.dg-button-group{ margin-top: 50px;
-		.pre-step{ float: left; }
-		.submit,
-		.next-step{ float: right; }
-	}
-	.timepicker{ overflow: hidden;
-		.tip{ line-height: 30px; font-size: 13px; color: #666; }
-		.timepicker-table{ border-collapse:collapse; border: 1px solid #eee; font-size: 13px; color: #333;
-			thead{ border-bottom: 1px solid #999;
-				tr{ height: 31px;
-					th{
-						&:first-child{ border-right: 1px solid #eee; }
-					}
-				}
-			}
-			th{ width: 60px; }
-			tbody{
-				tr{ border: 1px solid #eee; 
-					td{
-						&:first-child{ border-right: 1px solid #eee; }
-					}
-				}
-			}
-			td{ width: 30px; height: 30px; vertical-align: middle; text-align: center;}
-		}
-	}
-	.places{ 
-		select{ width: 98px; margin-right: 10px; line-height: 30px; }
-	}
+  textarea{ width: 314px; height: 135px; border: 1px solid #dedede; vertical-align: text-top; }
+  .subtitle{ width: 98px; font-size: 16px; color: #333; font-weight: 400; text-align: right; white-space: nowrap; }
+  .field-name{ display: inline-block; width: 98px; margin-right: 20px; font-size: 13px; color: #333; font-weight: 400; text-align: right; 
+    &.special{ float: left; line-height: 30px; }
+  }
+  .optional-places{ position: relative; float: left; 
+    .places{ margin-bottom: 10px; }
+    .optional-places-action{ position: absolute; right: -88px; top: 0; }
+  }
+  .field{ width: 180px; line-height: 30px; font-size: 13px; }
+  .state-code{ width: 30px; line-height: 30px; margin: 0 1px; appearance: none; -webkit-appearance: none; vertical-align: bottom; }
+  .field-mobile{ width: 138px; }
+  .select-age{ width: 150px; height: 30px; border: 1px solid #666; background-color: #fff; 
+    option{ color: #333; }
+  }
+  .word-count{ padding-right: 29%; text-align: right; }
+  .bind-twitter{ box-sizing: border-box; width: 127px; height: 35px; border: 1px solid #333; padding-left: 40px; font-size: 13px; }
+  .dg-button-group{ margin-top: 50px;
+    .pre-step{ float: left; }
+    .submit,
+    .next-step{ float: right; }
+  }
+  .timepicker{ overflow: hidden;
+    .tip{ line-height: 30px; font-size: 13px; color: #666; }
+    .timepicker-table{ border-collapse:collapse; border: 1px solid #eee; font-size: 13px; color: #333;
+      thead{ border-bottom: 1px solid #999;
+        tr{ height: 31px;
+          th{
+            &:first-child{ border-right: 1px solid #eee; }
+          }
+        }
+      }
+      th{ width: 60px; }
+      tbody{
+        tr{ border: 1px solid #eee; 
+          td{
+            &:first-child{ border-right: 1px solid #eee; }
+          }
+        }
+      }
+      td{ width: 30px; height: 30px; vertical-align: middle; text-align: center;}
+    }
+  }
+  .places{ 
+    select{ width: 98px; margin-right: 10px; line-height: 30px; }
+  }
 }
 
 // enroll success
 .enroll-success{ width: 500px; margin: 0 auto; padding-left: 8%;
-	.success-icon{ width: 51px; height: 51px; margin-right: 20px; float: left; background-color: #ccc; }
-	.content{ overflow: hidden; 
-		p{ margin: 0 0 10px; font-size: 20px; }
-	}
-	.qrcode{ margin: 20px 0 0; padding: 0;
-		li{ display: inline-block; margin-right: 20px; list-style: none; text-align: center;
-			img{ display: block; width: 98px; height: 98px; background-color: #ccc; }
-			span{ font-size: 13px; }
-		}
-	}
+  .success-icon{ width: 51px; height: 51px; margin-right: 20px; float: left; background-color: #ccc; }
+  .content{ overflow: hidden; 
+    p{ margin: 0 0 10px; font-size: 20px; }
+  }
+  .qrcode{ margin: 20px 0 0; padding: 0;
+    li{ display: inline-block; margin-right: 20px; list-style: none; text-align: center;
+      img{ display: block; width: 98px; height: 98px; background-color: #ccc; }
+      span{ font-size: 13px; }
+    }
+  }
 }
+
+[hidden] { display: none; }

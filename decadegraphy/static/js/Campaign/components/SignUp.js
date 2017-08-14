@@ -1,6 +1,8 @@
 import React from 'react'
-
+import moment from 'moment'
 import Helpers from '../../helpers.js'
+
+moment.locale('zh-CN')
 
 let COUNTRIES = []
 Helpers.getJSON('http://res.cloudinary.com/dgcdn/raw/upload/v1502605220/countries.json', (response) => { COUNTRIES = response })
@@ -75,6 +77,50 @@ class CountryCityComponent extends React.Component {
   }
 }
 
+class SchedulingComponent extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      dayOfWeekArray: [...Array(7).keys()].map(i => moment().day(i + 1).format('dddd'))
+    }
+  }
+  render () {
+    return (
+      <div className="dg-cf"><span className="field-name special">*可拍摄时段:</span>
+        <div className="timepicker">
+          <span className="tip">如果不确定，可以选择全天</span>
+          <table className="timepicker-table">
+            <thead>
+              <tr>
+                <th></th>
+                {this.state.dayOfWeekArray.map((d, i) => <th key={i}>{d}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>全天</td>
+                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
+              </tr>
+              <tr>
+                <td>上午</td>
+                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
+              </tr>
+              <tr>
+                <td>下午</td>
+                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
+              </tr>
+              <tr>
+                <td>晚上</td>
+                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )
+  }
+}
+
 class ParticipantFields extends React.Component {
   constructor (props) {
     super(props)
@@ -96,7 +142,7 @@ class ParticipantFields extends React.Component {
       <div>
         <p><label><span className="field-name">*预计拍摄时间:</span><input type="date" name="planned_date" placeholder="起始日期" />&nbsp;至&nbsp;<input type="date" name="planned_date" placeholder="不限制则留空" /></label></p>
         <p className="dg-cf"><label><span className="field-name special">*所在地:</span>
-        <CountryCityComponent /></label></p>
+          <CountryCityComponent /></label></p>
 
         <div className="dg-cf">
           <label>
@@ -122,72 +168,12 @@ class PhotographerFields extends React.Component {
   render () {
     return (
       <div>
-        <div className="dg-cf"><span className="field-name special">*可拍摄时段:</span>
-          <div className="timepicker">
-            <span className="tip">如果不确定，可以选择全天</span>
-            <table className="timepicker-table">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>星期一</th>
-                  <th>星期二</th>
-                  <th>星期三</th>
-                  <th>星期四</th>
-                  <th>星期五</th>
-                  <th>星期六</th>
-                  <th>星期日</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>全天</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-                <tr>
-                  <td>上午</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-                <tr>
-                  <td>下午</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-                <tr>
-                  <td>晚上</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <SchedulingComponent />
         <p className="dg-cf"><label><span className="field-name special">*所在地:</span></label>
-        <CountryCityComponent /></p>
+          <CountryCityComponent /></p>
 
         <p className="dg-cf"><label><span className="field-name special">备选拍摄地:</span></label>
-        <CountryCityComponent /></p>
+          <CountryCityComponent /></p>
       </div>
     )
   }
@@ -208,69 +194,9 @@ class VolunteerFields extends React.Component {
   render () {
     return (
       <div>
-        <div className="dg-cf"><span className="field-name special">*可拍摄时段:</span>
-          <div className="timepicker">
-            <span className="tip">如果不确定，可以选择全天</span>
-            <table className="timepicker-table">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>星期一</th>
-                  <th>星期二</th>
-                  <th>星期三</th>
-                  <th>星期四</th>
-                  <th>星期五</th>
-                  <th>星期六</th>
-                  <th>星期日</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>全天</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-                <tr>
-                  <td>上午</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-                <tr>
-                  <td>下午</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-                <tr>
-                  <td>晚上</td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                  <td><input type="checkbox" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <SchedulingComponent />
         <p className="dg-cf"><label><span className="field-name special">*所在地:</span></label>
-        <CountryCityComponent /></p>
+          <CountryCityComponent /></p>
         <p>
           <label><span className="field-name">*专业特长:</span></label>
           <select>
@@ -377,7 +303,7 @@ class SignUp extends React.Component {
             <p>开始你的Decadegraphy旅程</p>
             <ul className="qrcode">
               <li><img src="" alt="" /><span>上海交流群</span></li>
-              <li><img src="" alt="" /><span>厦门交流群</span></li>              
+              <li><img src="" alt="" /><span>厦门交流群</span></li>
             </ul>
           </div>
         </div>
