@@ -105,7 +105,7 @@ class ScheduleComponent extends React.Component {
 
   render () {
     return (
-      <div className="dg-cf"><span className="field-name special">*可拍摄时段:</span>
+      <div className="dg-cf field-item"><span className="field-name special">*可拍摄时段:</span>
         <div className="timepicker">
           <span className="tip">如果不确定，可以选择全天</span>
           <table className="timepicker-table">
@@ -152,11 +152,11 @@ class ParticipantFields extends React.Component {
   render () {
     return (
       <div>
-        <p><label><span className="field-name">*预计拍摄时间:</span><input type="date" name="planned_date" placeholder="起始日期" />&nbsp;至&nbsp;<input type="date" name="planned_date" placeholder="不限制则留空" /></label></p>
-        <p className="dg-cf"><label><span className="field-name special">*所在地:</span>
+        <p className="field-item"><label><span className="field-name">*预计拍摄时间:</span><input type="date" name="planned_date" className="planned-date" placeholder="起始日期" /><span className="planned-date-delimiter">至</span><input type="date" name="planned_date" placeholder="不限制则留空" className="planned-date" /></label></p>
+        <p className="dg-cf field-item"><label><span className="field-name special">*所在地:</span>
           <CountryCityComponent /></label></p>
 
-        <div className="dg-cf">
+        <div className="dg-cf field-item">
           <label>
             <span className="field-name special">备选拍摄地:</span>
             <div className="optional-places">
@@ -170,7 +170,7 @@ class ParticipantFields extends React.Component {
             </div>
           </label>
         </div>
-        <div><label><span className="field-name">拍摄故事:</span><textarea
+        <div className="field-item"><label><span className="field-name">拍摄故事:</span><textarea
           onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
           onKeyUp={e => this.setState({inputWords: e.target.value.length}) }
           placeholder="你有撰写10条推的空间告诉我们你的故事"></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
@@ -184,10 +184,10 @@ class PhotographerFields extends React.Component {
     return (
       <div>
         <ScheduleComponent />
-        <p className="dg-cf"><label><span className="field-name special">*所在地:</span></label>
+        <p className="dg-cf field-item"><label><span className="field-name special">*所在地:</span></label>
           <CountryCityComponent /></p>
 
-        <p className="dg-cf"><label><span className="field-name special">备选拍摄地:</span></label>
+        <p className="dg-cf field-item"><label><span className="field-name special">备选拍摄地:</span></label>
           <CountryCityComponent /></p>
       </div>
     )
@@ -210,16 +210,16 @@ class VolunteerFields extends React.Component {
     return (
       <div>
         <ScheduleComponent />
-        <p>
+        <p className="field-item">
           <label><span className="field-name">*专业特长:</span></label>
-          <select>
+          <select className="hobby-selection">
             <option>请选择</option>
             {this.state.options.map((o, i) => <option key={i}>{o}</option>)}
           </select>
         </p>
-        <p>
+        <p className="field-item">
           <label><span className="field-name">*兴趣方向:</span></label>
-          <select>
+          <select className="hobby-selection">
             <option>请选择</option>
             {this.state.options.map((o, i) => <option key={i}>{o}</option>)}
           </select>
@@ -285,12 +285,12 @@ class SignUp extends React.Component {
 
           <fieldset className="fill-role-info" hidden={this.state.stepIndex === 0}>
             <h2 className="subtitle">作为{this.state.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
-            <p><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" hidden /><button className="bind-twitter">绑定推特账号</button><span className="twitter-name">@jessieste</span></label></p>
-            <p><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
-            <p><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" required /></label></p>
-            <p><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" required /></label></p>
-            <p><label><span className="field-name">手机号:</span>+<input type="number" name="statecode" className="state-code" /><input className="field" type="number" name="mobile" className="field field-mobile" /></label></p>
-            <p>
+            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" hidden /><button className="bind-twitter">绑定推特账号</button><span className="twitter-name">@jessieste</span></label></p>
+            <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
+            <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" required /></label></p>
+            <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" required /></label></p>
+            <p className="field-item"><label><span className="field-name">手机号:</span><span className="tel-content">+<input type="number" name="statecode" className="state-code" /><input className="field" type="number" name="mobile" className="field field-mobile" /></span></label></p>
+            <p className="field-item">
               <label>
                 <span className="field-name">年龄:</span>
                 <select name="age" className="select-age">
@@ -302,7 +302,7 @@ class SignUp extends React.Component {
 
             {[<PhotographerFields />, <ParticipantFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
 
-            <div><label><span className="field-name">备注:</span>
+            <div className="field-item"><label><span className="field-name">备注:</span>
               <textarea className="note" name="note"
                 onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
                 onKeyUp={e => this.setState({inputWords: e.target.value.length}) }></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
