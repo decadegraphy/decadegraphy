@@ -15,7 +15,7 @@ class CampaignSerializer(serializers.HyperlinkedModelSerializer):
 class ApplicantSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Applicant
-        fields = ['email', 'note', 'created_at']
+        exclude = ('user', )
 
 
 class ApplicantViewSet(viewsets.ModelViewSet):

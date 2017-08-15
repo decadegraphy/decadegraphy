@@ -12,6 +12,14 @@ class User(AbstractUser):
     # around the globe.
     name = models.CharField(_('Name of User'), blank=True, max_length=255)
 
+    twitter_id = models.CharField(max_length=128)
+    wechat_id = models.CharField(max_length=64)
+    mobile = models.CharField(max_length=32)
+    age = models.CharField(null=True, blank=True, max_length=16)
+    country = models.CharField(max_length=255)
+    region = models.CharField(null=True, blank=True, max_length=255)
+    city = models.CharField(null=True, blank=True, max_length=255)
+
     def __str__(self):
         return self.username
 

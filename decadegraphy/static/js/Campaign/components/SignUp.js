@@ -77,13 +77,32 @@ class CountryCityComponent extends React.Component {
   }
 }
 
-class SchedulingComponent extends React.Component {
+class ScheduleComponent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       dayOfWeekArray: [...Array(7).keys()].map(i => moment().day(i + 1).format('dddd'))
     }
   }
+
+  _select (e) {
+    let value = parseInt(e.target.value),
+      isChecked = e.target.checked,
+      inputs = this.refs.tbody.getElementsByTagName('input')
+
+    for (let i = 0; i < inputs.length; i++) {
+      if (value <= 6) { // 全天
+        if (i % 7 - value === 0) {
+          inputs[i].checked = isChecked
+        }
+      } else {
+        if (!isChecked) {
+          inputs[value % 7].checked = isChecked
+        }
+      }
+    }
+  }
+
   render () {
     return (
       <div className="dg-cf"><span className="field-name special">*可拍摄时段:</span>
@@ -96,23 +115,15 @@ class SchedulingComponent extends React.Component {
                 {this.state.dayOfWeekArray.map((d, i) => <th key={i}>{d}</th>)}
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>全天</td>
-                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
-              </tr>
-              <tr>
-                <td>上午</td>
-                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
-              </tr>
-              <tr>
-                <td>下午</td>
-                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
-              </tr>
-              <tr>
-                <td>晚上</td>
-                {[...Array(7).keys()].map(i => <td key={i}><input value={i} type="checkbox" /></td>)}
-              </tr>
+            <tbody ref="tbody">
+              {['全天', moment('8', 'H').format('A'), moment('16', 'H').format('A'), moment('23', 'H').format('A')].map((a, i) => {
+                return (
+                  <tr key={i}>
+                    <td>{a}</td>
+                    {[...Array(7).keys()].map(_i => <td key={_i}><input onClick={this._select.bind(this)} value={7 * i + _i} type="checkbox" /></td>)}
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
@@ -125,7 +136,8 @@ class ParticipantFields extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      extraOptionalPlaceComponent: []
+      extraOptionalPlaceComponent: [],
+      inputWords: 0
     }
   }
   _handlePlaces (action, e) {
@@ -158,7 +170,10 @@ class ParticipantFields extends React.Component {
             </div>
           </label>
         </div>
-        <div><label><span className="field-name">拍摄故事:</span><textarea placeholder="你有撰写10条推的空间告诉我们你的故事"></textarea></label><p className="word-count">余1400字</p></div>
+        <div><label><span className="field-name">拍摄故事:</span><textarea
+          onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
+          onKeyUp={e => this.setState({inputWords: e.target.value.length}) }
+          placeholder="你有撰写10条推的空间告诉我们你的故事"></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
       </div>
     )
   }
@@ -168,7 +183,7 @@ class PhotographerFields extends React.Component {
   render () {
     return (
       <div>
-        <SchedulingComponent />
+        <ScheduleComponent />
         <p className="dg-cf"><label><span className="field-name special">*所在地:</span></label>
           <CountryCityComponent /></p>
 
@@ -194,9 +209,7 @@ class VolunteerFields extends React.Component {
   render () {
     return (
       <div>
-        <SchedulingComponent />
-        <p className="dg-cf"><label><span className="field-name special">*所在地:</span></label>
-          <CountryCityComponent /></p>
+        <ScheduleComponent />
         <p>
           <label><span className="field-name">*专业特长:</span></label>
           <select>
@@ -225,7 +238,8 @@ class SignUp extends React.Component {
       roleNames: ['摄影师', '模特', '志愿者'],
       roles: [],
       countries: [],
-      cities: []
+      cities: [],
+      inputWords: 0
     }
   }
 
@@ -257,6 +271,7 @@ class SignUp extends React.Component {
     return (
       <div className="sign-up">
         <form ref="form">
+          <input name="roles" type="hidden" value={this.state.roles.join(',')} />
           <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
           <div className="page-one" hidden={this.state.stepIndex !== 0}>
             <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this.state.roles.map(role => this.state.roleNames[role - 1]).join(', ')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
@@ -284,9 +299,13 @@ class SignUp extends React.Component {
                 </select>
               </label>
             </p>
+
             {[<PhotographerFields />, <ParticipantFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
 
-            <div><label><span className="field-name">备注:</span><textarea className="note" name="note"></textarea></label><p className="word-count">余1400字</p></div>
+            <div><label><span className="field-name">备注:</span>
+              <textarea className="note" name="note"
+                onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
+                onKeyUp={e => this.setState({inputWords: e.target.value.length}) }></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
             <div className="dg-button-group">
               <a className="dg-button pre-step" onClick={e => this.setState({stepIndex: this.state.stepIndex - 1})}>上一步</a>
               <a className="dg-button next-step" onClick={e => this.setState({stepIndex: this.state.stepIndex + 1})} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
