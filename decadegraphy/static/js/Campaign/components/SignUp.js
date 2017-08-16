@@ -5,7 +5,7 @@ import Helpers from '../../helpers.js'
 moment.locale('zh-CN')
 
 let COUNTRIES = []
-Helpers.getJSON('http://res.cloudinary.com/dgcdn/raw/upload/v1502605220/countries.json', (response) => { COUNTRIES = response })
+Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605220/countries.json', (response) => { COUNTRIES = response })
 class CountryCityComponent extends React.Component {
   constructor (props) {
     super(props)
@@ -27,7 +27,7 @@ class CountryCityComponent extends React.Component {
     if (name === 'country') {
       this.setState({regions: []})
       if (code === 'cn') {
-        Helpers.getJSON('http://res.cloudinary.com/dgcdn/raw/upload/v1502605838/cn.regions.json', (response) => {
+        Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605838/cn.regions.json', (response) => {
           cnData = response
 
           for (let province in cnData) {
@@ -40,7 +40,7 @@ class CountryCityComponent extends React.Component {
           this.setState({regions})
         })
       } else {
-        Helpers.getJSON('http://res.cloudinary.com/dgcdn/raw/upload/v1502605434/regions.json', (response) => {
+        Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605434/regions.json', (response) => {
           regions = response.filter(r => r.country === code).map(r => { return {code: r.region.toLowerCase().replace(/ /g, '-'), name: r.region} })
           this.setState({regions})
         })
@@ -58,6 +58,11 @@ class CountryCityComponent extends React.Component {
   }
 
   render () {
+    let citySelect = <select name="city">
+      <option>市/县</option>
+      {this.state.cities.map((c, i) => <option key={i}>{c.en}</option>)}
+    </select>
+
     return (
       <div className="places">
         <select ref="country" name="country" onChange={this._selectPlace.bind(this)}>
@@ -68,10 +73,7 @@ class CountryCityComponent extends React.Component {
           <option>省/州</option>
           {this.state.regions.map(r => <option key={r.code} value={r.code}>{r.name}</option>)}
         </select>
-        <select name="city">
-          <option>市/县</option>
-          {this.state.cities.map((c, i) => <option key={i}>{c.en}</option>)}
-        </select>
+        {(this.state.cities.length === 0) ? <input name="city" placeholder="城市" /> : citySelect }
       </div>
     )
   }
@@ -105,28 +107,26 @@ class ScheduleComponent extends React.Component {
 
   render () {
     return (
-      <div className="dg-cf field-item"><span className="field-name special">*可拍摄时段:</span>
-        <div className="timepicker">
-          <span className="tip">如果不确定，可以选择全天</span>
-          <table className="timepicker-table">
-            <thead>
-              <tr>
-                <th></th>
-                {this.state.dayOfWeekArray.map((d, i) => <th key={i}>{d}</th>)}
-              </tr>
-            </thead>
-            <tbody ref="tbody">
-              {['全天', moment('8', 'H').format('A'), moment('16', 'H').format('A'), moment('23', 'H').format('A')].map((a, i) => {
-                return (
-                  <tr key={i}>
-                    <td>{a}</td>
-                    {[...Array(7).keys()].map(_i => <td key={_i}><input onClick={this._select.bind(this)} value={7 * i + _i} type="checkbox" /></td>)}
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+      <div className="timepicker">
+        <span className="tip">如果不确定，可以选择全天</span>
+        <table className="timepicker-table">
+          <thead>
+            <tr>
+              <th></th>
+              {this.state.dayOfWeekArray.map((d, i) => <th key={i}>{d}</th>)}
+            </tr>
+          </thead>
+          <tbody ref="tbody">
+            {['全天', moment('8', 'H').format('A'), moment('16', 'H').format('A'), moment('23', 'H').format('A')].map((a, i) => {
+              return (
+                <tr key={i}>
+                  <td>{a}</td>
+                  {[...Array(7).keys()].map(_i => <td key={_i}><input onClick={this._select.bind(this)} value={7 * i + _i} type="checkbox" /></td>)}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     )
   }
@@ -152,10 +152,6 @@ class ParticipantFields extends React.Component {
   render () {
     return (
       <div>
-        <p className="field-item"><label><span className="field-name">*预计拍摄时间:</span><input type="date" name="planned_date" className="planned-date" placeholder="起始日期" /><span className="planned-date-delimiter">至</span><input type="date" name="planned_date" placeholder="不限制则留空" className="planned-date" /></label></p>
-        <p className="dg-cf field-item"><label><span className="field-name special">*所在地:</span>
-          <CountryCityComponent /></label></p>
-
         <div className="dg-cf field-item">
           <label>
             <span className="field-name special">备选拍摄地:</span>
@@ -170,6 +166,9 @@ class ParticipantFields extends React.Component {
             </div>
           </label>
         </div>
+
+        <p className="field-item"><label><span className="field-name">*预计拍摄时间:</span><input type="date" name="planned_date" className="planned-date" placeholder="起始日期" /><span className="planned-date-delimiter">至</span><input type="date" name="planned_date" placeholder="不限制则留空" className="planned-date" /></label></p>
+
         <div className="field-item"><label><span className="field-name">拍摄故事:</span><textarea
           onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
           onKeyUp={e => this.setState({inputWords: e.target.value.length}) }
@@ -183,12 +182,9 @@ class PhotographerFields extends React.Component {
   render () {
     return (
       <div>
-        <ScheduleComponent />
-        <p className="dg-cf field-item"><label><span className="field-name special">*所在地:</span></label>
-          <CountryCityComponent /></p>
-
         <p className="dg-cf field-item"><label><span className="field-name special">备选拍摄地:</span></label>
           <CountryCityComponent /></p>
+        <div className="dg-cf field-item"><span className="field-name special">*可拍摄时段:</span><ScheduleComponent /></div>
       </div>
     )
   }
@@ -209,7 +205,7 @@ class VolunteerFields extends React.Component {
   render () {
     return (
       <div>
-        <ScheduleComponent />
+        <div className="dg-cf field-item"><span className="field-name special">*可支配时间:</span><ScheduleComponent /></div>
         <p className="field-item">
           <label><span className="field-name">*专业特长:</span></label>
           <select className="hobby-selection">
@@ -299,6 +295,8 @@ class SignUp extends React.Component {
                 </select>
               </label>
             </p>
+            <p className="dg-cf field-item"><label><span className="field-name special">*所在地:</span>
+              <CountryCityComponent /></label></p>
 
             {[<PhotographerFields />, <ParticipantFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
 
