@@ -285,7 +285,7 @@ class SignUp extends React.Component {
             <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
             <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" required /></label></p>
             <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" required /></label></p>
-            <p className="field-item"><label><span className="field-name">手机号:</span><span className="tel-content">+<input type="number" name="statecode" className="state-code" /><input className="field" type="number" name="mobile" className="field field-mobile" /></span></label></p>
+            <p className="field-item"><label><span className="field-name">手机号:</span><span className="tel-content">+<input type="number" defaultValue="86" name="statecode" className="state-code" min="1" /><input className="field" type="number" name="mobile" className="field field-mobile" min="1" /></span></label></p>
             <p className="field-item">
               <label>
                 <span className="field-name">年龄:</span>
@@ -307,8 +307,8 @@ class SignUp extends React.Component {
             <div className="dg-button-group">
               <a className="dg-button pre-step" onClick={e => this.setState({stepIndex: this.state.stepIndex - 1})}>上一步</a>
               <a className="dg-button next-step" onClick={e => this.setState({stepIndex: this.state.stepIndex + 1})} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
+              <button className="dg-button submit" onClick={this._submit.bind(this)} hidden={this.state.stepIndex !== this.state.roles.length}>提交</button>
             </div>
-            <button className="dg-button submit" onClick={this._submit.bind(this)} hidden={this.state.stepIndex !== this.state.roles.length}>提交</button>
           </fieldset>
         </form>
         <div className="enroll-success">

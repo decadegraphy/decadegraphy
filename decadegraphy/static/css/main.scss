@@ -55,10 +55,10 @@ fieldset { margin-bottom: 30px; border: none; }
     .places{ margin-bottom: 10px; }
     .optional-places-action{ position: absolute; right: -88px; top: 0; }
   }
-  .field{ width: 180px; line-height: 30px; font-size: 13px; }
-  .state-code{ width: 30px; line-height: 30px; margin: 0 1px; appearance: none; -webkit-appearance: none; vertical-align: bottom; }
-  .field-mobile{ width: 138px; }
-  .select-age{ width: 150px; height: 30px; border: 1px solid #666; background-color: #fff; 
+  .field{ width: 180px; line-height: 30px; font-size: 12px; }
+  .state-code{ box-sizing: border-box; max-width: 46px; line-height: 30px; margin: 0 1px; padding-left: 2px; appearance: none; -webkit-appearance: none; vertical-align: bottom; font-size: 12px; }
+  .field-mobile{ box-sizing: border-box; width: 138px; padding-left: 2px; }
+  .select-age{ width: 150px; height: 30px; line-height: 30px; border: 1px solid #666; background-color: #fff; font-size: 12px;
     option{ color: #333; }
   }
   .word-count{ padding-right: 29%; text-align: right; }
@@ -90,7 +90,8 @@ fieldset { margin-bottom: 30px; border: none; }
     }
   }
   .places{ 
-    select{ width: 98px; margin-right: 10px; line-height: 30px; }
+    input,
+    select{ box-sizing: border-box; width: 98px; margin-right: 10px; line-height: 30px; height: 32px; }
   }
 }
 
