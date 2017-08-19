@@ -24,7 +24,7 @@ class Helpers {
       let response = JSON.parse(this.responseText)
       callback(response)
     }
-    xhr.open('POST', URL, false)
+    xhr.open('POST', URL)
     xhr.setRequestHeader('X-CSRFToken', token)
     if (!isForm) {
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')

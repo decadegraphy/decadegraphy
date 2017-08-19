@@ -24,7 +24,7 @@ class CountryCityComponent extends React.Component {
       regions = [],
       cnData
 
-    if (name === 'country') {
+    if (name.indexOf('country') !== -1) {
       this.setState({regions: []})
       if (code === 'cn') {
         Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605838/cn.regions.json', (response) => {
@@ -47,7 +47,7 @@ class CountryCityComponent extends React.Component {
       }
     }
 
-    if (name === 'region') {
+    if (name.indexOf('region') !== -1) {
       this.setState({cities: []})
       if (this.refs.country.value === 'cn') {
         this.setState({cities: Object.values(this.state.regions.filter(r => r.code === code)[0].cities)})
@@ -58,22 +58,23 @@ class CountryCityComponent extends React.Component {
   }
 
   render () {
-    let citySelect = <select name="city">
-      <option>市/县</option>
-      {this.state.cities.map((c, i) => <option key={i}>{c.en}</option>)}
-    </select>
+    let selectPrefix = this.props.name ? (this.props.name + '_') : '',
+      citySelect = <select name="city">
+        <option>市/县</option>
+        {this.state.cities.map((c, i) => <option key={i}>{c.en}</option>)}
+      </select>
 
     return (
       <div className="places">
-        <select ref="country" name="country" onChange={this._selectPlace.bind(this)}>
+        <select ref="country" name={selectPrefix + 'country[]'} onChange={this._selectPlace.bind(this)}>
           <option>国家/地区</option>
           {COUNTRIES.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
         </select>
-        <select name="region" onChange={this._selectPlace.bind(this)}>
+        <select name={selectPrefix + 'region[]'} onChange={this._selectPlace.bind(this)}>
           <option>省/州</option>
           {this.state.regions.map(r => <option key={r.code} value={r.code}>{r.name}</option>)}
         </select>
-        {(this.state.cities.length === 0) ? <input name="city" placeholder="城市" /> : citySelect }
+        {(this.state.cities.length === 0) ? <input name={selectPrefix + 'city[]'} placeholder="城市" /> : citySelect }
       </div>
     )
   }
@@ -121,7 +122,7 @@ class ScheduleComponent extends React.Component {
               return (
                 <tr key={i}>
                   <td>{a}</td>
-                  {[...Array(7).keys()].map(_i => <td key={_i}><input onClick={this._select.bind(this)} value={7 * i + _i} type="checkbox" /></td>)}
+                  {[...Array(7).keys()].map(_i => <td key={_i}><input name={this.props.name + '_schedule[]'} onClick={this._select.bind(this)} value={7 * i + _i} type="checkbox" /></td>)}
                 </tr>
               )
             })}
@@ -143,9 +144,9 @@ class ParticipantFields extends React.Component {
   _handlePlaces (action, e) {
     let extraOptionalPlaceComponent = this.state.extraOptionalPlaceComponent
     if (action === 'insert') {
-      extraOptionalPlaceComponent.push(<CountryCityComponent />)
+      extraOptionalPlaceComponent.push(<CountryCityComponent name="participant" />)
     } else if (action === 'remove') {
-      extraOptionalPlaceComponent.pop(<CountryCityComponent />)
+      extraOptionalPlaceComponent.pop(<CountryCityComponent name="participant" />)
     }
     this.setState({extraOptionalPlaceComponent})
   }
@@ -157,7 +158,7 @@ class ParticipantFields extends React.Component {
             <span className="field-name special">备选拍摄地:</span>
             <div className="optional-places">
               <div ref="optionalPlaces"></div>
-              <CountryCityComponent />
+              <CountryCityComponent name="participant" />
               {this.state.extraOptionalPlaceComponent.map(c => (c))}
               <div className="optional-places-action">
                 <span style={{display: (this.state.extraOptionalPlaceComponent.length > 1) ? 'none' : ''}} className="icon" onClick={this._handlePlaces.bind(this, 'insert')}>+</span>
@@ -183,8 +184,8 @@ class PhotographerFields extends React.Component {
     return (
       <div>
         <p className="dg-cf field-item"><label><span className="field-name special">备选拍摄地:</span></label>
-          <CountryCityComponent /></p>
-        <div className="dg-cf field-item"><span className="field-name special">*可拍摄时段:</span><ScheduleComponent /></div>
+          <CountryCityComponent name="photographer" /></p>
+        <div className="dg-cf field-item"><span className="field-name special">*可拍摄时段:</span><ScheduleComponent name="photographer" /></div>
       </div>
     )
   }
@@ -205,7 +206,7 @@ class VolunteerFields extends React.Component {
   render () {
     return (
       <div>
-        <div className="dg-cf field-item"><span className="field-name special">*可支配时间:</span><ScheduleComponent /></div>
+        <div className="dg-cf field-item"><span className="field-name special">*可支配时间:</span><ScheduleComponent name="photographer" /></div>
         <p className="field-item">
           <label><span className="field-name">*专业特长:</span></label>
           <select className="hobby-selection">
@@ -282,6 +283,9 @@ class SignUp extends React.Component {
           <fieldset className="fill-role-info" hidden={this.state.stepIndex === 0}>
             <h2 className="subtitle">作为{this.state.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
             <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" hidden /><button className="bind-twitter">绑定推特账号</button><span className="twitter-name">@jessieste</span></label></p>
+            <p className="dg-cf field-item"><label><span className="field-name special">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
+
+            {[<PhotographerFields />, <ParticipantFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
             <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
             <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" required /></label></p>
             <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" required /></label></p>
@@ -295,10 +299,6 @@ class SignUp extends React.Component {
                 </select>
               </label>
             </p>
-            <p className="dg-cf field-item"><label><span className="field-name special">*所在地:</span>
-              <CountryCityComponent /></label></p>
-
-            {[<PhotographerFields />, <ParticipantFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
 
             <div className="field-item"><label><span className="field-name">备注:</span>
               <textarea className="note" name="note"
