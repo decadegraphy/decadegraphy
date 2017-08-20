@@ -1,4 +1,4 @@
-import { Router, Route } from 'react-router'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
@@ -17,9 +17,8 @@ const history = createBrowserHistory()
 
 if (document.getElementById('app')) {
   ReactDOM.render((
-    <Router history={history}>
-      {/* <Route path="/campaigns/signup" component={Campaign.SignUp}/> */}
-      <Route path="/" component={Campaign.SignUp}/>
+    <Router>
+      <Route exact path="/campaigns/signup(/)?(\d+)?" component={Campaign.SignUp} />
     </Router>
   ), document.getElementById('app'))
 }

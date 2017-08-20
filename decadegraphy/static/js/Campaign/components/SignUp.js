@@ -4,8 +4,6 @@ import Helpers from '../../helpers.js'
 
 moment.locale('zh-CN')
 
-let COUNTRIES = []
-Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605220/countries.json', (response) => { COUNTRIES = response })
 class CountryCityComponent extends React.Component {
   constructor (props) {
     super(props)
@@ -16,7 +14,7 @@ class CountryCityComponent extends React.Component {
     }
   }
   componentDidMount () {
-    //
+    Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605220/countries.json', (countries) => this.setState({countries}))
   }
   _selectPlace (e) {
     let code = e.target.value,
@@ -68,7 +66,7 @@ class CountryCityComponent extends React.Component {
       <div className="places">
         <select ref="country" name={selectPrefix + 'country[]'} onChange={this._selectPlace.bind(this)}>
           <option>国家/地区</option>
-          {COUNTRIES.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+          {this.state.countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
         </select>
         <select name={selectPrefix + 'region[]'} onChange={this._selectPlace.bind(this)}>
           <option>省/州</option>
@@ -231,18 +229,46 @@ class SignUp extends React.Component {
     super(props)
     this.state = {
       stepIndex: 0,
-      ages: ['0-10', '11-19', '20-25', '26-30', '31-35', '36-40', '41-45', '45-50', '50-60', '60+'],
-      roleNames: ['摄影师', '模特', '志愿者'],
       roles: [],
-      countries: [],
-      cities: [],
-      inputWords: 0
+      twitterId: null,
+      inputWords: 0,
+      formData: {}
     }
   }
 
-  componentDidMount () {
-    //
+  componentDidUpdate (prevProps, prevState) {
+    window.localStorage.state = JSON.stringify(this.state)
   }
+
+  componentDidMount () {
+    let formElements = this.refs.form.querySelectorAll('input, textarea, select'),
+      // paramsKeys = Object.keys(this.props.match.params),
+      stateCache = window.localStorage.getItem('state'),
+      state = JSON.parse(stateCache) || {},
+      name
+
+    Helpers.getJSON('/api/users/auth/', (response) => {
+      if (response.username) {
+        this.setState({twitterId: response.username})
+      }
+    })
+
+    for (let i = 0; i < formElements.length; i++) {
+      name = formElements[i].name
+      if (state.hasOwnProperty('formData') && state.formData.hasOwnProperty(name)) {
+        formElements[i].value = state.formData[name]
+      }
+
+      if (['password', 'country[]', 'region[]', 'city[]'].indexOf(name) === -1) {
+        formElements[i].addEventListener('change', this._cacheForm.bind(this))
+      }
+    }
+
+    if (stateCache !== null) {
+      this.setState(state)
+    }
+  }
+
   _choiceRoles (i, e) {
     let roles = this.state.roles,
       stateIndex = roles.indexOf(i),
@@ -256,6 +282,15 @@ class SignUp extends React.Component {
     roles.sort()
     this.setState({roles})
   }
+
+  _cacheForm (e) {
+    let formData = this.state.formData,
+      name = e.target.name
+
+    formData[name] = e.target.value
+    this.setState({formData: formData})
+  }
+
   _submit (e) {
     e.preventDefault()
     // TODO: Validate
@@ -267,25 +302,31 @@ class SignUp extends React.Component {
   render () {
     return (
       <div className="sign-up">
-        <form ref="form">
-          <input name="roles" type="hidden" value={this.state.roles.join(',')} />
-          <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
-          <div className="page-one" hidden={this.state.stepIndex !== 0}>
-            <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this.state.roles.map(role => this.state.roleNames[role - 1]).join(', ')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
-            <div className="form-item-group">
-              <p><label><input type="checkbox" onClick={this._choiceRoles.bind(this, 1)} />摄影师，用图像记录其他推友</label></p>
-              <p><label><input type="checkbox" onClick={this._choiceRoles.bind(this, 2)} />模特，让摄影师拍摄你的现在与未来</label></p>
-              <p><label><input type="checkbox" onClick={this._choiceRoles.bind(this, 3)} />志愿者，作为活动的幕后人员</label></p>
-            </div>
-            <a className="dg-button" hidden={this.state.roles.length === 0} onClick={e => this.setState({stepIndex: 1})}>下一步</a>
+        <input name="roles" type="hidden" value={this.state.roles.join(',')} />
+        <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
+        <div className="page-one" hidden={this.state.stepIndex !== 0}>
+          <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this.state.roles.map(role => this.props.roleNames[role - 1]).join(', ')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
+          <div className="form-item-group">
+            <p><label><input checked={this.state.roles.indexOf(1) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 1)} />摄影师，用图像记录其他推友</label></p>
+            <p><label><input checked={this.state.roles.indexOf(2) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 2)} />模特，让摄影师拍摄你的现在与未来</label></p>
+            <p><label><input checked={this.state.roles.indexOf(3) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 3)} />志愿者，作为活动的幕后人员</label></p>
           </div>
+          <a className="dg-button" hidden={this.state.roles.length === 0} onClick={e => this.setState({stepIndex: 1})}>下一步</a>
+        </div>
 
+        <form ref="form">
           <fieldset className="fill-role-info" hidden={this.state.stepIndex === 0}>
-            <h2 className="subtitle">作为{this.state.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
-            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" hidden /><button className="bind-twitter">绑定推特账号</button><span className="twitter-name">@jessieste</span></label></p>
+            <h2 className="subtitle">作为{this.props.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
+            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
             <p className="dg-cf field-item"><label><span className="field-name special">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
-            {[<PhotographerFields />, <ParticipantFields />, <VolunteerFields />][this.state.roles[this.state.stepIndex - 1] - 1]}
+            {
+              [
+                <PhotographerFields />,
+                <ParticipantFields />,
+                <VolunteerFields />
+              ][this.state.roles[this.state.stepIndex - 1] - 1]
+            }
             <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
             <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" required /></label></p>
             <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" required /></label></p>
@@ -295,7 +336,7 @@ class SignUp extends React.Component {
                 <span className="field-name">年龄:</span>
                 <select name="age" className="select-age">
                   <option>请选择</option>
-                  {this.state.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
+                  {this.props.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
                 </select>
               </label>
             </p>
@@ -327,6 +368,10 @@ class SignUp extends React.Component {
       </div>
     )
   }
+}
+SignUp.defaultProps = {
+  ages: ['0-10', '11-19', '20-25', '26-30', '31-35', '36-40', '41-45', '45-50', '50-60', '60+'],
+  roleNames: ['摄影师', '模特', '志愿者']
 }
 
 export default SignUp
