@@ -15,6 +15,7 @@ SKILLS = (
     (4, '网站开发'),
 )
 class Applicant(models.Model):
+    campaign = models.ForeignKey(Campaign, null=True, blank=True)
     user = models.ForeignKey(User, null=True, blank=True)
     email = models.EmailField()
     roles = models.CharField(max_length=8)
@@ -24,9 +25,12 @@ class Applicant(models.Model):
     planned_date_start = models.DateField(null=True, blank=True)
     planned_date_end = models.DateField(null=True, blank=True)
     participant_optional_cities = models.CharField(null=True, blank=True, max_length=255)
-    photographer_optional_cities = models.CharField(null=True, blank=True, max_length=255)
+    photographer_optional_city = models.CharField(null=True, blank=True, max_length=255)
     photographer_schedule = models.IntegerField(null=True, blank=True)
     volunteer_schedule = models.IntegerField(null=True, blank=True)
     skill = models.IntegerField(null=True, blank=True, choices=SKILLS)
     will = models.IntegerField(null=True, blank=True, choices=SKILLS)
     created_at = models.DateTimeField(auto_now_add=True, editable=True)
+
+    def __str__(self):
+        return '{0}({1})'.format(self.user, self.roles)

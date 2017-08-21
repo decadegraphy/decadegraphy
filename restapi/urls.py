@@ -3,14 +3,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from campaigns.api import ApplicantViewSet
-from decadegraphy.users.models import User
 
 
 class UserAuthViewSet(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
 
     def list(self, request):
-        return Response({'username': request.user.username})
+        return Response({'username': request.user.username, 'id': request.user.id})
 
 router = routers.SimpleRouter()
 router.register(r'campaigns/applicants', ApplicantViewSet)

@@ -57,22 +57,23 @@ class CountryCityComponent extends React.Component {
 
   render () {
     let selectPrefix = this.props.name ? (this.props.name + '_') : '',
+      arraySuffix = (this.props.name === 'participant') ? '[]' : '',
       citySelect = <select name="city">
-        <option>市/县</option>
+        <option value="">市/县</option>
         {this.state.cities.map((c, i) => <option key={i}>{c.en}</option>)}
       </select>
 
     return (
       <div className="places">
-        <select ref="country" name={selectPrefix + 'country[]'} onChange={this._selectPlace.bind(this)}>
-          <option>国家/地区</option>
+        <select ref="country" name={`${selectPrefix}country${arraySuffix}`} onChange={this._selectPlace.bind(this)}>
+          <option value="">国家/地区</option>
           {this.state.countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
         </select>
-        <select name={selectPrefix + 'region[]'} onChange={this._selectPlace.bind(this)}>
-          <option>省/州</option>
+        <select name={`${selectPrefix}region${arraySuffix}`} onChange={this._selectPlace.bind(this)}>
+          <option value="">省/州</option>
           {this.state.regions.map(r => <option key={r.code} value={r.code}>{r.name}</option>)}
         </select>
-        {(this.state.cities.length === 0) ? <input name={selectPrefix + 'city[]'} placeholder="城市" /> : citySelect }
+        {(this.state.cities.length === 0) ? <input name={`${selectPrefix}city${arraySuffix}`} placeholder="城市" /> : citySelect }
       </div>
     )
   }
@@ -166,9 +167,9 @@ class ParticipantFields extends React.Component {
           </label>
         </div>
 
-        <p className="field-item"><label><span className="field-name">*预计拍摄时间:</span><input type="date" name="planned_date" className="planned-date" placeholder="起始日期" /><span className="planned-date-delimiter">至</span><input type="date" name="planned_date" placeholder="不限制则留空" className="planned-date" /></label></p>
+        <p className="field-item"><label><span className="field-name">*预计拍摄时间:</span><input type="date" name="planned_date_start" className="planned-date" placeholder="起始日期" /><span className="planned-date-delimiter">至</span><input type="date" name="planned_date_end" placeholder="不限制则留空" className="planned-date" /></label></p>
 
-        <div className="field-item"><label><span className="field-name">拍摄故事:</span><textarea
+        <div className="field-item"><label><span className="field-name">拍摄故事:</span><textarea name="story"
           onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
           onKeyUp={e => this.setState({inputWords: e.target.value.length}) }
           placeholder="你有撰写10条推的空间告诉我们你的故事"></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
@@ -207,16 +208,16 @@ class VolunteerFields extends React.Component {
         <div className="dg-cf field-item"><span className="field-name special">*可支配时间:</span><ScheduleComponent name="photographer" /></div>
         <p className="field-item">
           <label><span className="field-name">*专业特长:</span></label>
-          <select className="hobby-selection">
+          <select className="hobby-selection" name="skill">
             <option>请选择</option>
-            {this.state.options.map((o, i) => <option key={i}>{o}</option>)}
+            {this.state.options.map((o, i) => <option key={i} value={i + 1}>{o}</option>)}
           </select>
         </p>
         <p className="field-item">
           <label><span className="field-name">*兴趣方向:</span></label>
-          <select className="hobby-selection">
-            <option>请选择</option>
-            {this.state.options.map((o, i) => <option key={i}>{o}</option>)}
+          <select className="hobby-selection" name="will">
+            <option value="">请选择</option>
+            {this.state.options.map((o, i) => <option key={i} value={i + 1}>{o}</option>)}
           </select>
         </p>
       </div>
@@ -248,9 +249,7 @@ class SignUp extends React.Component {
       name
 
     Helpers.getJSON('/api/users/auth/', (response) => {
-      if (response.username) {
-        this.setState({twitterId: response.username})
-      }
+      this.setState({twitterId: response.username ? response.username : null})
     })
 
     for (let i = 0; i < formElements.length; i++) {
@@ -259,7 +258,7 @@ class SignUp extends React.Component {
         formElements[i].value = state.formData[name]
       }
 
-      if (['password', 'country[]', 'region[]', 'city[]'].indexOf(name) === -1) {
+      if (['twitter_id', 'password'].indexOf(name) === -1) {
         formElements[i].addEventListener('change', this._cacheForm.bind(this))
       }
     }
@@ -293,16 +292,24 @@ class SignUp extends React.Component {
 
   _submit (e) {
     e.preventDefault()
-    // TODO: Validate
     let data = Helpers.serializeForm(this.refs.form)
-    Helpers.post('/api/campaigns/applicants/', data, (response) => {
-      this.refs.form.reset()
+    if (data.hasOwnProperty('photographer_schedule')) {
+      data['photographer_schedule'] = parseInt([...Array(28).keys()].map(k => (data.photographer_schedule.indexOf(k.toString()) === -1) ? '0' : '1').join(''), 2)
+    }
+    // TODO:  Save Cities
+
+    Helpers.post('/api/campaigns/applicants/', data, (response, xhr) => {
+      if (xhr.status === 200) {
+        window.location.href = this.props.messageURL('success')
+        this.refs.form.reset()
+      } else {
+        alert(JSON.stringify(response))
+      }
     })
   }
   render () {
     return (
       <div className="sign-up">
-        <input name="roles" type="hidden" value={this.state.roles.join(',')} />
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
         <div className="page-one" hidden={this.state.stepIndex !== 0}>
           <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this.state.roles.map(role => this.props.roleNames[role - 1]).join(', ')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
@@ -314,7 +321,8 @@ class SignUp extends React.Component {
           <a className="dg-button" hidden={this.state.roles.length === 0} onClick={e => this.setState({stepIndex: 1})}>下一步</a>
         </div>
 
-        <form ref="form">
+        <form ref="form" onSubmit={this._submit.bind(this)}>
+          <input name="roles" type="hidden" value={this.state.roles.join(',')} />
           <fieldset className="fill-role-info" hidden={this.state.stepIndex === 0}>
             <h2 className="subtitle">作为{this.props.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
             <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
@@ -348,30 +356,18 @@ class SignUp extends React.Component {
             <div className="dg-button-group">
               <a className="dg-button pre-step" onClick={e => this.setState({stepIndex: this.state.stepIndex - 1})}>上一步</a>
               <a className="dg-button next-step" onClick={e => this.setState({stepIndex: this.state.stepIndex + 1})} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
-              <button className="dg-button submit" onClick={this._submit.bind(this)} hidden={this.state.stepIndex !== this.state.roles.length}>提交</button>
+              <button className="dg-button submit" hidden={this.state.stepIndex !== this.state.roles.length}>提交</button>
             </div>
           </fieldset>
         </form>
-        <div className="enroll-success">
-          <img src="" alt="" className="success-icon" />
-          <div className="content">
-            <p>报名成功</p>
-            <p>您的身份是：摄影师、志愿者</p>
-            <p>扫描下方二维码加入城市拍摄微信群，</p>
-            <p>开始你的Decadegraphy旅程</p>
-            <ul className="qrcode">
-              <li><img src="" alt="" /><span>上海交流群</span></li>
-              <li><img src="" alt="" /><span>厦门交流群</span></li>
-            </ul>
-          </div>
-        </div>
       </div>
     )
   }
 }
 SignUp.defaultProps = {
   ages: ['0-10', '11-19', '20-25', '26-30', '31-35', '36-40', '41-45', '45-50', '50-60', '60+'],
-  roleNames: ['摄影师', '模特', '志愿者']
+  roleNames: ['摄影师', '模特', '志愿者'],
+  messageURL: (type) => `/campaigns/signup/${type}`
 }
 
 export default SignUp

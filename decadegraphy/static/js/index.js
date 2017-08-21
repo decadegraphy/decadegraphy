@@ -18,7 +18,10 @@ const history = createBrowserHistory()
 if (document.getElementById('app')) {
   ReactDOM.render((
     <Router>
-      <Route exact path="/campaigns/signup(/)?(\d+)?" component={Campaign.SignUp} />
+      <div>
+        <Route exact path="/campaigns/signup(/)?(\d+)?" component={Campaign.SignUp} />
+        <Route exact path="/campaigns/signup/:message" component={Campaign.Message} />
+      </div>
     </Router>
   ), document.getElementById('app'))
 }

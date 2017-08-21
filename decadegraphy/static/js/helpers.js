@@ -22,7 +22,7 @@ class Helpers {
         return
       }
       let response = JSON.parse(this.responseText)
-      callback(response)
+      callback(response, xhr)
     }
     xhr.open('POST', URL)
     xhr.setRequestHeader('X-CSRFToken', token)
@@ -44,7 +44,7 @@ class Helpers {
       } catch (e) {
         response = null
       } finally {
-        callback(response)
+        callback(response, xhr)
       }
     }
     xhr.open('GET', URL)

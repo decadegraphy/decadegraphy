@@ -14,7 +14,7 @@ class User(AbstractUser):
 
     twitter_id = models.CharField(max_length=128)
     wechat_id = models.CharField(max_length=64)
-    mobile = models.CharField(max_length=32)
+    mobile = models.CharField(null=True, blank=True, max_length=32)
     age = models.CharField(null=True, blank=True, max_length=16)
     country = models.CharField(max_length=255)
     region = models.CharField(null=True, blank=True, max_length=255)
