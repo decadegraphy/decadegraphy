@@ -32,5 +32,9 @@
     "build:dist": "webpack -p",
     "start:dev": "webpack-dev-server --open --hot --inline",
     "watch": "webpack --watch"
+  },
+  "dependencies": {
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   }
 }

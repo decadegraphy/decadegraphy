@@ -1,7 +1,7 @@
 import React from 'react'
 import Helpers from '../../helpers.js'
 
-import SignUp from './SignUp.js'
+import SignUp from './SignUp'
 
 class Message extends React.Component {
   constructor (props) {
