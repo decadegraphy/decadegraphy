@@ -62,7 +62,7 @@ fieldset { margin-bottom: 30px; border: none; }
     option{ color: #333; }
   }
   .word-count{ padding-right: 29%; text-align: right; }
-  .bind-twitter{ box-sizing: border-box; width: 127px; height: 35px; border: 1px solid #333; padding-left: 40px; font-size: 13px; }
+  .bind-twitter{ box-sizing: border-box; display: inline-block; width: 127px; height: 35px; line-height: 35px; border: 1px solid #333; padding-left: 40px; background: url(data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCA0KMQeGeOZcAAAAzElEQVQoz4XRv0uCURTG8Y8GvYtIS9RkiwjR1OQQFP0DNTa29AcpuBS0O7S4CekQONUa9GMSnOPdQkO6DfbqfTPxPNN5vs85XM5lTW384+26UJdKUSbRtBnhE6kgGLvWs82pYGDnFxcMhbn6LqkJgpErFVmX6XY2dT83XrVzgTM48OA7Zy9UmW14W4E/sncfr4jcZYFEy3gJT9SgiIkXydK5Gt7j9lAnN/+ktIBbjtyYRrgR37auG6FPA+fx6gLYs6/qy6Nn03X/+6d+AN2jdxHvUX4AAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTA4LTEzVDEwOjQ5OjA3KzAyOjAwBgJMgAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wOC0xM1QxMDo0OTowNyswMjowMHdf9DwAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC) no-repeat; background-position: left 10px center; background-size: 22px; text-decoration: none; color: #333; font-size: 13px; }
   .dg-button-group{ margin-top: 50px;
     .pre-step{ float: left; }
     .submit,
@@ -89,7 +89,8 @@ fieldset { margin-bottom: 30px; border: none; }
       td{ width: 30px; height: 30px; vertical-align: middle; text-align: center;}
     }
   }
-  .places{ 
+  .places{
+    input{ border: 1px solid rgba(0, 0, 0, 0.16); vertical-align: top; } 
     input,
     select{ box-sizing: border-box; width: 98px; margin-right: 10px; line-height: 30px; height: 32px; }
   }
@@ -128,7 +129,9 @@ fieldset { margin-bottom: 30px; border: none; }
     .subtitle{ margin: 0 auto; }
     .field-item{ position: relative; padding: 20px 10px 0 0; text-align: left;
       .planned-date-delimiter{ display: block; margin-left: 98px; padding: 10px 0; }
-      .field-name{ position: absolute; top: 0; left: 0; }
+      .field-name{ position: absolute; top: 0; left: 0; 
+        &.primary-place{ width: 126px; }
+      }
       .hobby-selection,
       .select-age,
       .bind-twitter,

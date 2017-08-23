@@ -355,7 +355,7 @@ class SignUp extends React.Component {
           <fieldset className="fill-role-info" hidden={this.state.stepIndex === 0}>
             <h2 className="subtitle">作为{this.props.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
             <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
-            <p className="dg-cf field-item"><label><span className="field-name special">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
+            <p className="dg-cf field-item"><label><span className="field-name special primary-place">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
             <div ref="fieldsArray">{fieldsArray}</div>
 
