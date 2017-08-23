@@ -69,3 +69,6 @@ staticfiles/
 
 # webpack-log
 webpack-stats.json
+
+bin/
+pyvenv.cfg
