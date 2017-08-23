@@ -3,6 +3,8 @@ var path = require('path'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   webpack = require('webpack');
 
+const APP_DIR = path.resolve(__dirname, 'decadegraphy', 'static', 'js')
+
 module.exports = {
   context: __dirname,
   entry: [
@@ -10,6 +12,9 @@ module.exports = {
     //'webpack/hot/only-dev-server',
     './decadegraphy/static/js/index'
   ],
+  resolve: {
+    modules: [APP_DIR, "node_modules"]
+  },
   output: {
     path: path.resolve('./decadegraphy/static/webpack_bundles/'),
     filename: '[name].dev.js'
@@ -22,7 +27,8 @@ module.exports = {
       use: [{
         loader: 'babel-loader',
         options: {
-          presets: ['react', 'es2015']
+          presets: ['react', 'es2015'],
+          plugins: ['transform-object-rest-spread']
         }
       }]
     },

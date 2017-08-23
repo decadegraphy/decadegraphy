@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 import * as Campaign from './Campaign'
 import { Provider } from 'react-redux'
-import { store } from './store'
+import { store } from 'store'
 
 import '../css/main.scss'
 

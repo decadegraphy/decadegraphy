@@ -2,6 +2,8 @@ import React from 'react'
 import moment from 'moment'
 import Helpers from '../../../helpers.js'
 import { connect } from 'react-redux'
+import dispatch from 'store'
+import * as events from 'events.js'
 
 import CountryCityComponent from './CountryCityComponent'
 import ScheduleComponent from './ScheduleComponent'
@@ -16,7 +18,6 @@ class SignUp extends React.Component {
     super(props)
     this.state = {
       stepIndex: 0,
-      roles: [],
       twitterId: null,
       inputWords: 0,
       formData: {}
@@ -42,18 +43,11 @@ class SignUp extends React.Component {
     }
   }
 
-  _choiceRoles (i, e) {
-    let roles = this.state.roles,
-      stateIndex = roles.indexOf(i),
-      roleId = parseInt(i)
-
-    if (stateIndex === -1) {
-      roles.push(roleId)
-    } else {
-      roles.splice(stateIndex, 1)
-    }
-    roles.sort()
-    this.setState({roles})
+  _choiceRoles (role, event) {
+    dispatch({
+      type: events.SIGNUP_TOGGLE_ROLE,
+      payload: { role: role, checked: event.currentTarget.checked }
+    })
   }
 
   _switchStep (n, e) {
@@ -119,26 +113,39 @@ class SignUp extends React.Component {
       }
     })
   }
+
+  _selectedRoleNames () {
+    const roleNames = {
+      photographer: '摄影师',
+      model: '模特',
+      volunteer: '志愿者'
+    }
+
+    return Object.keys(roleNames)
+      .filter(role => this.props.roles[role])
+      .map(role => roleNames[role])
+  }
+
   render () {
-    let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => this.state.roles.indexOf(i + 1) !== -1)
+    let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => this.props.legacyRolesArray.indexOf(i + 1) !== -1)
 
     return (
       <div className="sign-up">
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
         <div className="page-one" hidden={this.state.stepIndex !== 0}>
-          <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this.state.roles.map(role => this.props.roleNames[role - 1]).join(', ')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
+          <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this._selectedRoleNames().join('，')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
           <div className="form-item-group">
-            <p><label><input checked={this.state.roles.indexOf(1) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 1)} />摄影师，用图像记录其他推友</label></p>
-            <p><label><input checked={this.state.roles.indexOf(2) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 2)} />模特，让摄影师拍摄你的现在与未来</label></p>
-            <p><label><input checked={this.state.roles.indexOf(3) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 3)} />志愿者，作为活动的幕后人员</label></p>
+            <p><label><input checked={this.props.roles['photographer']} type="checkbox" onClick={this._choiceRoles.bind(this, 'photographer')} />摄影师，用图像记录其他推友</label></p>
+            <p><label><input checked={this.props.roles['model']} type="checkbox" onClick={this._choiceRoles.bind(this, 'model')} />模特，让摄影师拍摄你的现在与未来</label></p>
+            <p><label><input checked={this.props.roles['volunteer']} type="checkbox" onClick={this._choiceRoles.bind(this, 'volunteer')} />志愿者，作为活动的幕后人员</label></p>
           </div>
-          <a className="dg-button" hidden={this.state.roles.length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
+          <a className="dg-button" hidden={this._selectedRoleNames.length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
         </div>
 
         <form ref="form" onSubmit={this._submit.bind(this)}>
-          <input name="roles" type="hidden" value={this.state.roles.join(',')} />
+          <input name="roles" type="hidden" value={this.props.legacyRolesArray.join(',')} />
           <fieldset className="fill-role-info" hidden={this.state.stepIndex === 0}>
-            <h2 className="subtitle">作为{this.props.roleNames[this.state.roles[this.state.stepIndex - 1] - 1]}的你，</h2>
+            <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.state.stepIndex - 1] - 1]}的你，</h2>
             <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
             <p className="dg-cf field-item"><label><span className="field-name special primary-place">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
@@ -164,8 +171,8 @@ class SignUp extends React.Component {
                 onKeyUp={e => this.setState({inputWords: e.target.value.length}) }></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
             <div className="dg-button-group">
               <a className="dg-button pre-step" onClick={this._switchStep.bind(this, -1)}>上一步</a>
-              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
-              <button className="dg-button submit" hidden={this.state.stepIndex !== this.state.roles.length}>提交</button>
+              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={this.state.stepIndex === this.props.legacyRolesArray.length}>下一步</a>
+              <button className="dg-button submit" hidden={this.state.stepIndex !== this.props.legacyRolesArray.length}>提交</button>
             </div>
           </fieldset>
         </form>
@@ -180,7 +187,20 @@ SignUp.defaultProps = {
 }
 
 function mapStateToProps(state, props){
-  return {}
+  const { roles } = state.campaigns
+
+  let legacyRolesArray = []
+  if (roles.photographer)
+    legacyRolesArray.push(1)
+  if (roles.model)
+    legacyRolesArray.push(2)
+  if (roles.volunteer)
+    legacyRolesArray.push(3)
+
+  return {
+    roles,
+    legacyRolesArray
+  }
 }
 
 export default connect(mapStateToProps)(SignUp)
