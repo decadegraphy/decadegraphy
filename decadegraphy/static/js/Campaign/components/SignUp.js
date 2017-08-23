@@ -14,7 +14,7 @@ class CountryCityComponent extends React.Component {
     }
   }
   componentDidMount () {
-    Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605220/countries.json', (countries) => this.setState({countries}))
+    Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/countries.json', (countries) => this.setState({countries}))
   }
   _selectPlace (e) {
     let code = e.target.value,
@@ -24,8 +24,9 @@ class CountryCityComponent extends React.Component {
 
     if (name.indexOf('country') !== -1) {
       this.setState({regions: []})
+      this.setState({cities: []})
       if (code === 'cn') {
-        Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605838/cn.regions.json', (response) => {
+        Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/cn.regions.json', (response) => {
           cnData = response
 
           for (let province in cnData) {
@@ -38,7 +39,7 @@ class CountryCityComponent extends React.Component {
           this.setState({regions})
         })
       } else {
-        Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/v1502605434/regions.json', (response) => {
+        Helpers.getJSON('https://res.cloudinary.com/dgcdn/raw/upload/regions.json', (response) => {
           regions = response.filter(r => r.country === code).map(r => { return {code: r.region.toLowerCase().replace(/ /g, '-'), name: r.region} })
           this.setState({regions})
         })
@@ -58,9 +59,9 @@ class CountryCityComponent extends React.Component {
   render () {
     let selectPrefix = this.props.name ? (this.props.name + '_') : '',
       arraySuffix = (this.props.name === 'participant') ? '[]' : '',
-      citySelect = <select name="city">
+      citySelect = <select name={`${selectPrefix}city${arraySuffix}`}>
         <option value="">市/县</option>
-        {this.state.cities.map((c, i) => <option key={i}>{c.en}</option>)}
+        {this.state.cities.map((c, i) => <option key={i} value={c.en}>{c.en}</option>)}
       </select>
 
     return (
@@ -145,7 +146,7 @@ class ParticipantFields extends React.Component {
     if (action === 'insert') {
       extraOptionalPlaceComponent.push(<CountryCityComponent name="participant" />)
     } else if (action === 'remove') {
-      extraOptionalPlaceComponent.pop(<CountryCityComponent name="participant" />)
+      extraOptionalPlaceComponent.pop()
     }
     this.setState({extraOptionalPlaceComponent})
   }
@@ -205,7 +206,7 @@ class VolunteerFields extends React.Component {
   render () {
     return (
       <div>
-        <div className="dg-cf field-item"><span className="field-name special">*可支配时间:</span><ScheduleComponent name="photographer" /></div>
+        <div className="dg-cf field-item"><span className="field-name special">*可支配时间:</span><ScheduleComponent name="volunteer" /></div>
         <p className="field-item">
           <label><span className="field-name">*专业特长:</span></label>
           <select className="hobby-selection" name="skill">
@@ -242,29 +243,17 @@ class SignUp extends React.Component {
   }
 
   componentDidMount () {
-    let formElements = this.refs.form.querySelectorAll('input, textarea, select'),
-      // paramsKeys = Object.keys(this.props.match.params),
-      stateCache = window.localStorage.getItem('state'),
-      state = JSON.parse(stateCache) || {},
-      name
+    let stateCache = window.localStorage.getItem('state'),
+      state = JSON.parse(stateCache) || {}
 
     Helpers.getJSON('/api/users/auth/', (response) => {
       this.setState({twitterId: response.username ? response.username : null})
     })
 
-    for (let i = 0; i < formElements.length; i++) {
-      name = formElements[i].name
-      if (state.hasOwnProperty('formData') && state.formData.hasOwnProperty(name)) {
-        formElements[i].value = state.formData[name]
-      }
-
-      if (['twitter_id', 'password'].indexOf(name) === -1) {
-        formElements[i].addEventListener('change', this._cacheForm.bind(this))
-      }
-    }
-
     if (stateCache !== null) {
-      this.setState(state)
+      this.setState(state, () => {
+        this._switchStep(0)
+      })
     }
   }
 
@@ -282,6 +271,32 @@ class SignUp extends React.Component {
     this.setState({roles})
   }
 
+  _switchStep (n, e) {
+    let formElements = this.refs.form.querySelectorAll('input, textarea, select'),
+      newStepIndex = this.state.stepIndex + n,
+      fields = this.refs.fieldsArray.children,
+      stateCache = window.localStorage.getItem('state'),
+      state = JSON.parse(stateCache) || {},
+      name
+
+    for (let i = 0; i < fields.length; i++) {
+      fields[i].style.display = (i === newStepIndex - 1) ? '' : 'none'
+    }
+
+    for (let i = 0; i < formElements.length; i++) {
+      name = formElements[i].name
+      if (state.hasOwnProperty('formData') && state.formData.hasOwnProperty(name)) {
+        formElements[i].value = state.formData[name]
+      }
+
+      if (['twitter_id', 'password', 'country', 'region'].indexOf(name) === -1) {
+        formElements[i].addEventListener('change', this._cacheForm.bind(this))
+      }
+    }
+
+    this.setState({stepIndex: newStepIndex})
+  }
+
   _cacheForm (e) {
     let formData = this.state.formData,
       name = e.target.name
@@ -292,11 +307,23 @@ class SignUp extends React.Component {
 
   _submit (e) {
     e.preventDefault()
-    let data = Helpers.serializeForm(this.refs.form)
-    if (data.hasOwnProperty('photographer_schedule')) {
-      data['photographer_schedule'] = parseInt([...Array(28).keys()].map(k => (data.photographer_schedule.indexOf(k.toString()) === -1) ? '0' : '1').join(''), 2)
+    let data = Helpers.serializeForm(this.refs.form),
+      scheduleBin
+
+    ['photographer', 'participant', 'volunteer'].forEach((role) => {
+      if (data.hasOwnProperty(role + '_schedule')) {
+        scheduleBin = [...Array(28).keys()].map(k => (data[role + '_schedule'].indexOf(k.toString()) === -1) ? '0' : '1').join('')
+        data[role + '_schedule'] = parseInt(scheduleBin, 2)
+      }
+    })
+
+    // Save citys
+    if (data.hasOwnProperty('participant_country')) {
+      data['participant_optional_cities'] = JSON.stringify(data.participant_country.map((country, i) => {
+        return [country, data.participant_region[i], data.participant_city[i]]
+      }))
     }
-    // TODO:  Save Cities
+    data['photographer_optional_city'] = JSON.stringify([data.photographer_country, data.photographer_region, data.photographer_city])
 
     Helpers.post('/api/campaigns/applicants/', data, (response, xhr) => {
       if (xhr.status === 200) {
@@ -308,6 +335,8 @@ class SignUp extends React.Component {
     })
   }
   render () {
+    let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => this.state.roles.indexOf(i + 1) !== -1)
+
     return (
       <div className="sign-up">
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
@@ -318,7 +347,7 @@ class SignUp extends React.Component {
             <p><label><input checked={this.state.roles.indexOf(2) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 2)} />模特，让摄影师拍摄你的现在与未来</label></p>
             <p><label><input checked={this.state.roles.indexOf(3) !== -1} type="checkbox" onClick={this._choiceRoles.bind(this, 3)} />志愿者，作为活动的幕后人员</label></p>
           </div>
-          <a className="dg-button" hidden={this.state.roles.length === 0} onClick={e => this.setState({stepIndex: 1})}>下一步</a>
+          <a className="dg-button" hidden={this.state.roles.length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
         </div>
 
         <form ref="form" onSubmit={this._submit.bind(this)}>
@@ -328,13 +357,8 @@ class SignUp extends React.Component {
             <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
             <p className="dg-cf field-item"><label><span className="field-name special">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
-            {
-              [
-                <PhotographerFields />,
-                <ParticipantFields />,
-                <VolunteerFields />
-              ][this.state.roles[this.state.stepIndex - 1] - 1]
-            }
+            <div ref="fieldsArray">{fieldsArray}</div>
+
             <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
             <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" required /></label></p>
             <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" required /></label></p>
@@ -354,8 +378,8 @@ class SignUp extends React.Component {
                 onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
                 onKeyUp={e => this.setState({inputWords: e.target.value.length}) }></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
             <div className="dg-button-group">
-              <a className="dg-button pre-step" onClick={e => this.setState({stepIndex: this.state.stepIndex - 1})}>上一步</a>
-              <a className="dg-button next-step" onClick={e => this.setState({stepIndex: this.state.stepIndex + 1})} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
+              <a className="dg-button pre-step" onClick={this._switchStep.bind(this, -1)}>上一步</a>
+              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={this.state.stepIndex === this.state.roles.length}>下一步</a>
               <button className="dg-button submit" hidden={this.state.stepIndex !== this.state.roles.length}>提交</button>
             </div>
           </fieldset>

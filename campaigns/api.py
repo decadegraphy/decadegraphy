@@ -22,8 +22,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
 
     def get_cities(self, obj):
         user = obj.user
-        user_and_optional_cities = filter(lambda x: x is not None and len(x) > 0,
-                                          [user.city, obj.photographer_optional_city, obj.participant_optional_cities])
+        user_and_optional_cities = {'user': [user.country, user.region, user.city], 'optional': [obj.photographer_optional_city, obj.participant_optional_cities]}
         return user_and_optional_cities
 
 
