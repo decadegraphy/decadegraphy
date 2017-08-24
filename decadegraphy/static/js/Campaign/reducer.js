@@ -1,7 +1,11 @@
 import * as events from 'events.js'
 
 const initialState = {
-  roles: {}
+  roles: {
+    photographer: false,
+    model: false,
+    volunteer: false
+  }
 }
 
 function reducer(prevState = initialState, { type, payload }) {

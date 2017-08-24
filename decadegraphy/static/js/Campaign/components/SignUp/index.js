@@ -139,7 +139,7 @@ class SignUp extends React.Component {
             <p><label><input checked={this.props.roles['model']} type="checkbox" onClick={this._choiceRoles.bind(this, 'model')} />模特，让摄影师拍摄你的现在与未来</label></p>
             <p><label><input checked={this.props.roles['volunteer']} type="checkbox" onClick={this._choiceRoles.bind(this, 'volunteer')} />志愿者，作为活动的幕后人员</label></p>
           </div>
-          <a className="dg-button" hidden={this._selectedRoleNames.length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
+          <a className="dg-button" hidden={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
         </div>
 
         <form ref="form" onSubmit={this._submit.bind(this)}>
