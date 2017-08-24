@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: foo
+      MYSQL_PASSWORD: bar
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    logging:
+      options:
+        max-size: "2M"
+        max-file: "5"
+
+volumes:
+  mysql_data:
+

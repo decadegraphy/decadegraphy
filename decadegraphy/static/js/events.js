@@ -1,0 +1,1 @@
+export const SIGNUP_TOGGLE_ROLE = 'SIGNUP_TOGGLE_ROLE'
