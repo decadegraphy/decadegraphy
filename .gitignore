@@ -70,5 +70,11 @@ staticfiles/
 # webpack-log
 webpack-stats.json
 
+# Python venv
 bin/
 pyvenv.cfg
+lib/python*/site-packages
+/pip-selfcheck.json
+
+# Webpack static bundles
+/decadegraphy/static/webpack_bundles/*
