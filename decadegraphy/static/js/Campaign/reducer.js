@@ -9,8 +9,8 @@ const initialState = {
   stepIndex: 0
 }
 
-function reducer(prevState = initialState, { type, payload }) {
-  switch(type) {
+function reducer (prevState = initialState, { type, payload }) {
+  switch (type) {
     case events.SIGNUP_TOGGLE_ROLE: {
       return handleSignupToggleRole(prevState, payload)
     }
@@ -21,7 +21,7 @@ function reducer(prevState = initialState, { type, payload }) {
   return {...prevState}
 }
 
-function handleSignupToggleRole(prevState, payload) {
+function handleSignupToggleRole (prevState, payload) {
   return {
     ...prevState,
     roles: {
@@ -31,7 +31,7 @@ function handleSignupToggleRole(prevState, payload) {
   }
 }
 
-function handleChangeStep(prevState, { stepIndex }) {
+function handleChangeStep (prevState, { stepIndex }) {
   return {
     ...prevState,
     stepIndex: stepIndex

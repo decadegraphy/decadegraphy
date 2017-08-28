@@ -41,11 +41,6 @@ CACHES = {
     }
 }
 
-# DATABASE
-# ------------------------------------------------------------------------------
-
-DATABASES['default'] = env.db('DATABASE_URL')
-
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]

@@ -6,7 +6,6 @@ import dispatch from 'store'
 import * as events from 'events.js'
 
 import CountryCityComponent from './CountryCityComponent'
-import ScheduleComponent from './ScheduleComponent'
 import ParticipantFields from './ParticipantFields'
 import PhotographerFields from './PhotographerFields'
 import VolunteerFields from './VolunteerFields'
@@ -88,8 +87,15 @@ class SignUp extends React.Component {
 
   _submit (e) {
     e.preventDefault()
+
     let data = Helpers.serializeForm(this.refs.form),
       scheduleBin
+
+    // Format
+    data['mobile'] = data.mobile ? `${data.statecode} ${data.mobile}` : ''
+    if (!data.planned_date_end) {
+      delete data['planned_date_end']
+    }
 
     ['photographer', 'participant', 'volunteer'].forEach((role) => {
       if (data.hasOwnProperty(role + '_schedule')) {
@@ -119,7 +125,7 @@ class SignUp extends React.Component {
   _selectedRoleNames () {
     const roleNames = {
       photographer: '摄影师',
-      model: '模特',
+      participant: '模特',
       volunteer: '志愿者'
     }
 
@@ -138,7 +144,7 @@ class SignUp extends React.Component {
           <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this._selectedRoleNames().join('，')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
           <div className="form-item-group">
             <p><label><input checked={this.props.roles['photographer']} type="checkbox" onClick={this._choiceRoles.bind(this, 'photographer')} />摄影师，用图像记录其他推友</label></p>
-            <p><label><input checked={this.props.roles['model']} type="checkbox" onClick={this._choiceRoles.bind(this, 'model')} />模特，让摄影师拍摄你的现在与未来</label></p>
+            <p><label><input checked={this.props.roles['participant']} type="checkbox" onClick={this._choiceRoles.bind(this, 'participant')} />模特，让摄影师拍摄你的现在与未来</label></p>
             <p><label><input checked={this.props.roles['volunteer']} type="checkbox" onClick={this._choiceRoles.bind(this, 'volunteer')} />志愿者，作为活动的幕后人员</label></p>
           </div>
           <a className="dg-button" hidden={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
@@ -148,15 +154,15 @@ class SignUp extends React.Component {
           <input name="roles" type="hidden" value={this.props.legacyRolesArray.join(',')} />
           <fieldset className="fill-role-info" hidden={this.props.stepIndex === 0}>
             <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你，</h2>
-            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
+            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
             <p className="dg-cf field-item"><label><span className="field-name special primary-place">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
             <div ref="fieldsArray">{fieldsArray}</div>
 
             <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
-            <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" required /></label></p>
-            <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" required /></label></p>
-            <p className="field-item"><label><span className="field-name">手机号:</span><span className="tel-content">+<input type="number" defaultValue="86" name="statecode" className="state-code" min="1" /><input className="field" type="number" name="mobile" className="field field-mobile" min="1" /></span></label></p>
+            <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" minLength={8} maxLength={20} required /></label></p>
+            <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" minLength={6} maxLength={20} required /></label></p>
+            <p className="field-item"><label><span className="field-name">手机号:</span><span className="tel-content">+<input defaultValue="86" name="statecode" className="state-code" /><input className="field" name="mobile" className="field field-mobile" /></span></label></p>
             <p className="field-item">
               <label>
                 <span className="field-name">年龄:</span>
@@ -188,17 +194,19 @@ SignUp.defaultProps = {
   messageURL: (type) => `/campaigns/signup/${type}`
 }
 
-function mapStateToProps(state, props){
+function mapStateToProps (state, props) {
   const { roles, stepIndex } = state.campaigns
 
   let legacyRolesArray = []
-  if (roles.photographer)
+  if (roles.photographer) {
     legacyRolesArray.push(1)
-  if (roles.model)
+  }
+  if (roles.participant) {
     legacyRolesArray.push(2)
-  if (roles.volunteer)
+  }
+  if (roles.volunteer) {
     legacyRolesArray.push(3)
-
+  }
   return {
     roles,
     legacyRolesArray,
