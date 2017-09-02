@@ -51,6 +51,8 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',  # registration
     'allauth.socialaccount.providers.twitter',  # enable twiiter
 
+    'django_celery_beat',
+    'django_celery_results',
 
     'webpack_loader',
     'rest_framework',
@@ -286,3 +288,25 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100,
 }
+
+class CeleryConfig(object):
+    """Base configuration object for Celery.
+    """
+    broker_url = 'redis://localhost:6379/0'
+    result_backend = 'redis://localhost:6379/0'
+
+    task_serializer = 'json'
+    result_serializer = 'json'
+    accept_content = ['json']
+
+    timezone = 'Asia/Shanghai'
+    enable_utc = True
+    # If needed, scheduled tasks can be added here
+    # from celery.schedules import crontab
+    # beat_schedule = {
+    #     'add-every-30-seconds': {
+    #         'task': 'tasks.add',
+    #         'schedule': 30.0,
+    #         'args': (16, 16)
+    #     }
+    # }
