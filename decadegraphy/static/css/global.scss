@@ -1,0 +1,26 @@
+body {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 300;
+  color: #fff;
+  background-color: #191919;
+}
+
+h1, h2, h3 {
+  font-weight: 300;
+}
+
+.dg-enroll-title {
+  text-align: center;
+  color: #fff;
+  margin: 0;
+}
+
+.dg-button {
+  border: 1px solid #fff;
+  padding: 6px 12px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+}
