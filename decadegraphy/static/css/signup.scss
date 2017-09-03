@@ -1,0 +1,45 @@
+.sign-up {
+  height: 100vh;
+  padding-top: 60px;
+  
+  .page-one {
+    width: 980px;
+    margin: 80px auto 0;
+  }
+
+  .subtitle {
+    color: #fff;
+    font-size: 20;
+    text-align: center;
+  }
+
+  .form-item-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px auto;
+  }
+
+  .role {
+    flex: 1;
+    text-align: center;
+
+    &.active {
+      border-bottom: 1px solid #fff;
+    }
+
+    .title {
+      color: #fff;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .description {
+      color: #fff;
+      text-align: center;
+    }
+  }
+
+  .page-one-submit {
+    text-align: right;
+  }
+}

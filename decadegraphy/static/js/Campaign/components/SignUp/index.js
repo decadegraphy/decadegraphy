@@ -41,10 +41,10 @@ class SignUp extends React.Component {
     }
   }
 
-  _choiceRoles (role, event) {
+  _choiceRoles (role, checked) {
     dispatch({
       type: events.SIGNUP_TOGGLE_ROLE,
-      payload: { role: role, checked: event.currentTarget.checked }
+      payload: { role, checked }
     })
   }
 
@@ -134,6 +134,39 @@ class SignUp extends React.Component {
       .map(role => roleNames[role])
   }
 
+  renderRoles() {
+    const roles = [{
+      name: 'photographer',
+      img: 'http://ww1.sinaimg.cn/large/6e2c19a8gy1fj6gasqk3ij2050076q2y.jpg',
+      title: '摄影师',
+      description: '用图像记录其他推友',
+    },
+    {
+      name: 'participant',
+      img: 'http://ww1.sinaimg.cn/large/6e2c19a8gy1fj6gasqdcqj2066070mx5.jpg',
+      title: '模特',
+      description: '让摄影师拍摄你的现在与未来',
+    },
+    {
+      name: 'volunteer',
+      img: 'http://ww1.sinaimg.cn/large/6e2c19a8gy1fj6gasvmh3j206y074wei.jpg',
+      title: '志愿者',
+      description: '作为活动的幕后人员',
+    }]
+
+    return roles.map((role, index) => {
+      const isChecked = this.props.roles[role.name]
+      const roleClass = isChecked ? 'role active' : 'role'
+      return (
+        <div className={roleClass} onClick={() => this._choiceRoles(role.name, !isChecked)} key={`${role.name}-${index}`}>
+          <img src={role.img} />
+          <p className="title">{role.title}</p>
+          <p className="description">{role.description}</p>
+        </div>
+      )
+    })
+  }
+
   render () {
     let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => this.props.legacyRolesArray.indexOf(i + 1) !== -1)
 
@@ -141,13 +174,14 @@ class SignUp extends React.Component {
       <div className="sign-up">
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
         <div className="page-one" hidden={this.props.stepIndex !== 0}>
-          <h2 className="subtitle"><b>你</b>想作为 _<span style={{textDecoration: 'underline'}}>{this._selectedRoleNames().join('，')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
+          <h2 className="subtitle">你想作为{this._selectedRoleNames().join('，')}</h2>
           <div className="form-item-group">
-            <p><label><input checked={this.props.roles['photographer']} type="checkbox" onClick={this._choiceRoles.bind(this, 'photographer')} />摄影师，用图像记录其他推友</label></p>
-            <p><label><input checked={this.props.roles['participant']} type="checkbox" onClick={this._choiceRoles.bind(this, 'participant')} />模特，让摄影师拍摄你的现在与未来</label></p>
-            <p><label><input checked={this.props.roles['volunteer']} type="checkbox" onClick={this._choiceRoles.bind(this, 'volunteer')} />志愿者，作为活动的幕后人员</label></p>
+            {this.renderRoles()}
           </div>
-          <a className="dg-button" hidden={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
+
+          <div className="page-one-submit">
+            <a className="dg-button" hidden={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
+          </div>
         </div>
 
         <form ref="form" onSubmit={this._submit.bind(this)}>
@@ -188,6 +222,7 @@ class SignUp extends React.Component {
     )
   }
 }
+
 SignUp.defaultProps = {
   ages: ['0-10', '11-19', '20-25', '26-30', '31-35', '36-40', '41-45', '45-50', '50-60', '60+'],
   roleNames: ['摄影师', '模特', '志愿者'],
