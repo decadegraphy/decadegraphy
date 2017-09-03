@@ -16,7 +16,6 @@ class SignUp extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      twitterId: null,
       inputWords: 0,
       formData: {}
     }
@@ -31,7 +30,10 @@ class SignUp extends React.Component {
       state = JSON.parse(stateCache) || {}
 
     Helpers.getJSON('/api/users/auth/', (response) => {
-      this.setState({twitterId: response.username ? response.username : null})
+      dispatch({
+        type: events.TWITTER_ID_FETCHED,
+        payload: { twitterId: response.username ? response.username : null }
+      })
     })
 
     if (stateCache !== null) {
@@ -154,7 +156,7 @@ class SignUp extends React.Component {
           <input name="roles" type="hidden" value={this.props.legacyRolesArray.join(',')} />
           <fieldset className="fill-role-info" hidden={this.props.stepIndex === 0}>
             <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你，</h2>
-            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
+            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.props.twitterId || ''} required hidden />{!this.props.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.props.twitterId}</span>}</label></p>
             <p className="dg-cf field-item"><label><span className="field-name special primary-place">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
             <div ref="fieldsArray">{fieldsArray}</div>
@@ -195,7 +197,7 @@ SignUp.defaultProps = {
 }
 
 function mapStateToProps (state, props) {
-  const { roles, stepIndex } = state.campaigns
+  const { roles, stepIndex, twitterId } = state.campaigns
 
   let legacyRolesArray = []
   if (roles.photographer) {
@@ -210,7 +212,8 @@ function mapStateToProps (state, props) {
   return {
     roles,
     legacyRolesArray,
-    stepIndex
+    stepIndex,
+    twitterId
   }
 }
 

@@ -6,7 +6,8 @@ const initialState = {
     model: false,
     volunteer: false
   },
-  stepIndex: 0
+  stepIndex: 0,
+  twitterId: null
 }
 
 function reducer (prevState = initialState, { type, payload }) {
@@ -16,6 +17,9 @@ function reducer (prevState = initialState, { type, payload }) {
     }
     case events.CHANGE_STEP: {
       return handleChangeStep(prevState, payload)
+    }
+    case events.TWITTER_ID_FETCHED: {
+      return handleTwitterIdFetched(prevState, payload)
     }
   }
   return {...prevState}
@@ -35,6 +39,13 @@ function handleChangeStep (prevState, { stepIndex }) {
   return {
     ...prevState,
     stepIndex: stepIndex
+  }
+}
+
+function handleTwitterIdFetched (prevState, { twitterId }) {
+  return {
+    ...prevState,
+    twitterId
   }
 }
 
