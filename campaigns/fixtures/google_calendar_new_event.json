@@ -1,0 +1,30 @@
+{
+    "kind": "calendar#event",
+    "etag": "\"3008929603858000\"",
+    "id": "2q4pq7r8bsemor5nmuv3esjfj4",
+    "status": "tentative",
+    "htmlLink": "https://www.google.com/calendar/event?eid=link_id",
+    "created": "2017-09-03T18:53:21.000Z",
+    "updated": "2017-09-03T18:53:21.929Z",
+    "summary": "@test \u4e0eTest \u7ea6\u62cd",
+    "location": "Test",
+    "creator": {
+        "email": "<no>@<domain>"
+    },
+    "organizer": {
+        "email": "<filtered>@group.calendar.google.com",
+        "displayName": "<secured>",
+        "self": true
+    },
+    "start": {
+        "date": "2017-09-01"
+    },
+    "end": {
+        "date": "2017-09-01"
+    },
+    "iCalUID": "<filtered>@google.com",
+    "sequence": 1,
+    "reminders": {
+        "useDefault": true
+    }
+}
