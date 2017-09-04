@@ -1,72 +1,7 @@
 @import './normalize.css';
 @import './global.scss';
 @import './signup.scss';
-
-// select { 
-//   padding: 6px; height: 32px; border-radius: 2px; 
-// }
-
-// fieldset { margin-bottom: 30px; border: none; }
-
-// .icon { background-color: #303030; color: #fff; height: 30px; width: 30px; display: inline-block; font-size: 0.8em; margin-right: 14px; line-height: 30px; text-align: center; text-shadow: 0 1px 0 rgba(255,255,255,0.2); border-radius: 100%; }
-
-// // global className
-// .dg-enroll-title{ color: #333; font-size: 28px; text-align: center; }
-// .dg-button{ display: block; width: 90px; line-height: 40px; border: 1px solid #666; color: #333; text-align: center; }
-// .dg-cf{
-// 	&:before{ content: ''; display: table; }
-// 	&:after{ content: ''; display: table; clear: both; }
-// }
-
-// // role selection
-// .page-one{ width: 460px; margin: 0 auto; padding-left: 110px;
-// 	.subtitle{ color: #333; font-size: 16px; font-weight: normal; white-space: nowrap;
-// 		.notice{ margin-left: 80px; font-size: 13px; color: #199ED8; }
-// 	}
-// 	.dg-button{ margin: 70px auto 0; }
-// }
-
-// // fill info
-// .fill-role-info{ padding-left: 31%;
-//   textarea{ width: 314px; height: 135px; border: 1px solid #dedede; vertical-align: text-top; }
-//   .subtitle{ width: 98px; font-size: 16px; color: #333; font-weight: 400; text-align: right; white-space: nowrap; }
-//   .field-name{ display: inline-block; width: 98px; margin-right: 20px; font-size: 13px; color: #333; font-weight: 400; text-align: right; 
-//     &.special{ float: left; line-height: 30px; }
-//   }
-//   .optional-places{ position: relative; float: left; 
-//     .places{ margin-bottom: 10px; }
-//     .optional-places-action{ position: absolute; right: -88px; top: 0; }
-//   }
-//   .field{ width: 180px; line-height: 30px; font-size: 12px; }
-//   .state-code{ box-sizing: border-box; max-width: 46px; line-height: 30px; margin: 0 1px; padding-left: 2px; appearance: none; -webkit-appearance: none; vertical-align: bottom; font-size: 12px; }
-//   .field-mobile{ box-sizing: border-box; width: 138px; padding-left: 2px; }
-//   .select-age{ width: 150px; height: 30px; line-height: 30px; border: 1px solid #666; background-color: #fff; font-size: 12px;
-//     option{ color: #333; }
-//   }
-//   .word-count{ padding-right: 29%; text-align: right; }
-//   .bind-twitter{ box-sizing: border-box; display: inline-block; width: 127px; height: 35px; line-height: 35px; border: 1px solid #333; padding-left: 40px; background: url(data:img/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADdcAAA3XAUIom3gAAAAHdElNRQfhCA0KMQeGeOZcAAAAzElEQVQoz4XRv0uCURTG8Y8GvYtIS9RkiwjR1OQQFP0DNTa29AcpuBS0O7S4CekQONUa9GMSnOPdQkO6DfbqfTPxPNN5vs85XM5lTW384+26UJdKUSbRtBnhE6kgGLvWs82pYGDnFxcMhbn6LqkJgpErFVmX6XY2dT83XrVzgTM48OA7Zy9UmW14W4E/sncfr4jcZYFEy3gJT9SgiIkXydK5Gt7j9lAnN/+ktIBbjtyYRrgR37auG6FPA+fx6gLYs6/qy6Nn03X/+6d+AN2jdxHvUX4AAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTA4LTEzVDEwOjQ5OjA3KzAyOjAwBgJMgAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wOC0xM1QxMDo0OTowNyswMjowMHdf9DwAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC) no-repeat; background-position: left 10px center; background-size: 22px; text-decoration: none; color: #333; font-size: 13px; }
-//   .dg-button-group{ margin-top: 50px;
-//     .pre-step{ float: left; }
-//     .submit,
-//     .next-step{ float: right; }
-//   }
-
-
-// // enroll success
-// .enroll-success{ width: 500px; margin: 0 auto; padding-left: 8%;
-//   .success-icon{ width: 51px; height: 51px; margin-right: 20px; float: left; background-color: #ccc; }
-//   .content{ overflow: hidden; 
-//     p{ margin: 0 0 10px; font-size: 20px; }
-//   }
-//   .qrcode{ margin: 20px 0 0; padding: 0;
-//     li{ display: inline-block; margin-right: 20px; list-style: none; text-align: center;
-//       img{ display: block; width: 98px; height: 98px; background-color: #ccc; }
-//       span{ font-size: 13px; }
-//     }
-//   }
-// }
-
-// [hidden] { display: none; }
+@import './success.scss';
 
 // @media(max-width: 500px){
 //   form{ margin: 0; padding: 0; }
