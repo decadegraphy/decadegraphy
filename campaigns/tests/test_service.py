@@ -33,7 +33,7 @@ class ServiceTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.redis = StrictRedis.from_url(settings.REDIS_LOCATION)
-    
+
     def test_creates_new_event_for_unlisted_applicant(self):
         service = populated_service()
         unlisted_applicant = Applicant.objects.filter(
@@ -51,7 +51,7 @@ class ServiceTests(TestCase):
 class GoogleOAuthFlowTests(TestCase):
     def test_finish_oauth_server_to_server_flow(self):
         populated_service(is_creating_new_event=False)
-    
+
     def test_submit_calendar_event(self):
         service = populated_service()
         event = {
