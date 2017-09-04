@@ -168,7 +168,7 @@ class SignUp extends React.Component {
   }
 
   render () {
-    const { stepIndex, legacyRolesArray } = this.props
+    const { roleNames, stepIndex, legacyRolesArray } = this.props
     let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => legacyRolesArray.indexOf(i + 1) !== -1)
     const pageOneClass = stepIndex !== 0 ? 'page-one hide' : 'page-one'
     const pageTwoClass = stepIndex !== 1 ? 'page-two hide' : 'page-two'
@@ -188,8 +188,8 @@ class SignUp extends React.Component {
         </div>
 
         <form className={pageTwoClass} ref="form" onSubmit={this._submit.bind(this)}>
-          <input name="roles" type="hidden" value={this.props.legacyRolesArray.join(',')} />
-          <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你</h2>
+          <input name="roles" type="hidden" value={legacyRolesArray.join(',')} />
+          <h2 className="subtitle">作为{roleNames[legacyRolesArray[stepIndex - 1] - 1]}的你</h2>
 
           <fieldset className="fill-role-info">
             <p className="field-item">
@@ -255,8 +255,8 @@ class SignUp extends React.Component {
 
             <div className="dg-button-group">
               <a className="dg-button pre-step" onClick={this._switchStep.bind(this, -1)}>上一步</a>
-              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={stepIndex === this.props.legacyRolesArray.length}>下一步</a>
-              <button className="dg-button submit" hidden={stepIndex !== this.props.legacyRolesArray.length}>提交</button>
+              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={stepIndex === legacyRolesArray.length}>下一步</a>
+              <button className="dg-button submit" hidden={stepIndex !== legacyRolesArray.length}>提交</button>
             </div>
           </fieldset>
         </form>

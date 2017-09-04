@@ -46,6 +46,11 @@ select {
   margin-top: 60px;
 }
 
+.dg-button-group {
+  margin-top: 40px;
+  text-align: right;
+}
+
 .dg-button {
   border: 1px solid #fff;
   padding: 6px 12px;
@@ -53,4 +58,17 @@ select {
   cursor: pointer;
   font-weight: 500;
   background: transparent;
+  margin: 0 10px;
+}
+
+.dg-icon {
+  border: 1px solid #fff;
+  border-radius: 50%;
+  padding: 6px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  text-align: center;
+  line-height: 9px;
+  margin: 6px;
 }

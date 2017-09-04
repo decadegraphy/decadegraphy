@@ -1,6 +1,7 @@
 .sign-up {
   display: flex;
   flex-direction: column;
+  padding-bottom: 40px;
   .page-one,
   .page-two {
     flex: 1;
@@ -15,8 +16,9 @@
   }
   .subtitle {
     color: #fff;
-    font-size: 20;
+    font-size: 20px;
     text-align: center;
+    margin-top: 40px;
   }
   .form-item-group {
     display: flex;
@@ -80,6 +82,9 @@
   .note {
     width: 360px;
     height: 120px;
+  }
+  .planned-date-delimiter {
+    margin: 0 1em;
   }
 }
 
