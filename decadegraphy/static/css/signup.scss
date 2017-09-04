@@ -66,6 +66,9 @@
   .field {
     margin-right: 1em;
   }
+  select.field {
+    width: 120px;
+  }
   .bind-twitter,
   .twitter-name {
     color: #fff;

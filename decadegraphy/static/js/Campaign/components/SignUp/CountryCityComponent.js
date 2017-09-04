@@ -56,7 +56,7 @@ class CountryCityComponent extends React.Component {
   render () {
     let selectPrefix = this.props.name ? (this.props.name + '_') : '',
       arraySuffix = (this.props.name === 'participant') ? '[]' : '',
-      citySelect = <select name={`${selectPrefix}city${arraySuffix}`}>
+      citySelect = <select className="field" name={`${selectPrefix}city${arraySuffix}`}>
         <option value="">市/县</option>
         {this.state.cities.map((c, i) => <option key={i} value={c.en}>{c.en}</option>)}
       </select>
