@@ -134,24 +134,24 @@ class SignUp extends React.Component {
       .map(role => roleNames[role])
   }
 
-  renderRoles() {
+  renderRoles () {
     const roles = [{
       name: 'photographer',
-      img: 'http://ww1.sinaimg.cn/large/6e2c19a8gy1fj6gasqk3ij2050076q2y.jpg',
+      img: 'https://whale-token-im.b0.upaiyun.com/upload-img/photographer.png',
       title: '摄影师',
-      description: '用图像记录其他推友',
+      description: '用图像记录其他推友'
     },
     {
       name: 'participant',
-      img: 'http://ww1.sinaimg.cn/large/6e2c19a8gy1fj6gasqdcqj2066070mx5.jpg',
+      img: 'https://whale-token-im.b0.upaiyun.com/upload-img/participant.png',
       title: '模特',
-      description: '让摄影师拍摄你的现在与未来',
+      description: '让摄影师拍摄你的现在与未来'
     },
     {
       name: 'volunteer',
-      img: 'http://ww1.sinaimg.cn/large/6e2c19a8gy1fj6gasvmh3j206y074wei.jpg',
+      img: 'https://whale-token-im.b0.upaiyun.com/upload-img/volunteer.png',
       title: '志愿者',
-      description: '作为活动的幕后人员',
+      description: '作为活动的幕后人员'
     }]
 
     return roles.map((role, index) => {
@@ -180,14 +180,14 @@ class SignUp extends React.Component {
           </div>
 
           <div className="page-one-submit">
-            <a className="dg-button" hidden={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</a>
+            <button className="dg-button" disabled={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</button>
           </div>
         </div>
 
         <form ref="form" onSubmit={this._submit.bind(this)}>
           <input name="roles" type="hidden" value={this.props.legacyRolesArray.join(',')} />
           <fieldset className="fill-role-info" hidden={this.props.stepIndex === 0}>
-            <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你，</h2>
+            <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你</h2>
             <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
             <p className="dg-cf field-item"><label><span className="field-name special primary-place">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
