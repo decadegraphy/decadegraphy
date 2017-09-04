@@ -71,14 +71,14 @@ def populate_event_for_submitting(applicant):
     """Returns a dict of to be submitted event.
     """
     event = {
-        'summary': f"{applicant.user__twitter_id} 与摄影师约拍",
-        'location': f"{applicant.participant_optional_cities}",
+        'summary': "{} 与摄影师约拍".format(applicant.user__twitter_id),
+        'location': "{}".format(applicant.participant_optional_cities),
         'status': 'tentative',
         'start': {
-            'date': f"{applicant.planned_date_start}",
+            'date': "{}".format(applicant.planned_date_start),
         },
         'end': {
-            'date': f"{applicant.planned_date_end}",
+            'date': "{}".format(applicant.planned_date_end),
         }
     }
     return event
@@ -95,7 +95,7 @@ def process_photograph_event(applicant, calendar_service, redis):
     """
 
     # Uses the best effort redis redlock assumed the network is quite ok for such task.
-    with redis.lock(f"{_PHOTOGRAPH_EVENT_LOCK_KEY_PREFIX}{applicant.id}"):
+    with redis.lock("{}{}".format(_PHOTOGRAPH_EVENT_LOCK_KEY_PREFIX, applicant.id)):
         applicant.refresh_from_db()
         if applicant.google_calendar_event_created:
             return
