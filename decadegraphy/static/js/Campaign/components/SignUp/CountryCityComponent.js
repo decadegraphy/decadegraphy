@@ -63,15 +63,15 @@ class CountryCityComponent extends React.Component {
 
     return (
       <div className="places">
-        <select ref="country" name={`${selectPrefix}country${arraySuffix}`} onChange={this._selectPlace.bind(this)}>
+        <select className="field" ref="country" name={`${selectPrefix}country${arraySuffix}`} onChange={this._selectPlace.bind(this)}>
           <option value="">国家/地区</option>
           {this.state.countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
         </select>
-        <select name={`${selectPrefix}region${arraySuffix}`} onChange={this._selectPlace.bind(this)}>
+        <select className="field" name={`${selectPrefix}region${arraySuffix}`} onChange={this._selectPlace.bind(this)}>
           <option value="">省/州</option>
           {this.state.regions.map(r => <option key={r.code} value={r.code}>{r.name}</option>)}
         </select>
-        {(this.state.cities.length === 0) ? <input name={`${selectPrefix}city${arraySuffix}`} placeholder="城市" /> : citySelect }
+        {(this.state.cities.length === 0) ? <input className="field" name={`${selectPrefix}city${arraySuffix}`} placeholder="城市" /> : citySelect }
       </div>
     )
   }

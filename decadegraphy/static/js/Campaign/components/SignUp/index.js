@@ -168,12 +168,15 @@ class SignUp extends React.Component {
   }
 
   render () {
-    let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => this.props.legacyRolesArray.indexOf(i + 1) !== -1)
+    const { stepIndex, legacyRolesArray } = this.props
+    let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => legacyRolesArray.indexOf(i + 1) !== -1)
+    const pageOneClass = stepIndex !== 0 ? 'page-one hide' : 'page-one'
+    const pageTwoClass = stepIndex !== 1 ? 'page-two hide' : 'page-two'
 
     return (
       <div className="sign-up">
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
-        <div className="page-one" hidden={this.props.stepIndex !== 0}>
+        <div className={pageOneClass}>
           <h2 className="subtitle">你想作为{this._selectedRoleNames().join('，')}</h2>
           <div className="form-item-group">
             {this.renderRoles()}
@@ -184,37 +187,72 @@ class SignUp extends React.Component {
           </div>
         </div>
 
-        <form ref="form" onSubmit={this._submit.bind(this)}>
+        <form className={pageTwoClass} ref="form" onSubmit={this._submit.bind(this)}>
           <input name="roles" type="hidden" value={this.props.legacyRolesArray.join(',')} />
-          <fieldset className="fill-role-info" hidden={this.props.stepIndex === 0}>
-            <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你</h2>
-            <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />{!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}</label></p>
-            <p className="dg-cf field-item"><label><span className="field-name special primary-place">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
+          <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你</h2>
 
-            <div ref="fieldsArray">{fieldsArray}</div>
-
-            <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
-            <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" minLength={8} maxLength={20} required /></label></p>
-            <p className="field-item"><label><span className="field-name">*微信号:</span><input className="field" type="text" name="wechat_id" minLength={6} maxLength={20} required /></label></p>
-            <p className="field-item"><label><span className="field-name">手机号:</span><span className="tel-content">+<input defaultValue="86" name="statecode" className="state-code" /><input className="field" name="mobile" className="field field-mobile" /></span></label></p>
+          <fieldset className="fill-role-info">
             <p className="field-item">
               <label>
-                <span className="field-name">年龄:</span>
-                <select name="age" className="select-age">
-                  <option>请选择</option>
-                  {this.props.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
-                </select>
+                <span className="field-name">*Twitter ID:</span>
+                <input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />
+                {!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}
               </label>
             </p>
 
-            <div className="field-item"><label><span className="field-name">备注:</span>
-              <textarea className="note" name="note"
+            <div className="field-item">
+              <label className="field-name" for="country">*所在地/首选拍摄地:</label>
+              <CountryCityComponent />
+            </div>
+
+            <div ref="fieldsArray">{fieldsArray}</div>
+
+            <div className="field-item">
+              <label className="field-name" for="email">*邮箱:</label>
+              <input className="field" type="email" name="email" required />
+            </div>
+
+            <div className="field-item">
+              <label className="field-name" for="password">*密码:</label>
+              <input className="field" type="password" name="password" minLength={8} maxLength={20} required />
+            </div>
+
+            <div className="field-item">
+              <label className="field-name" for="wechat_id">*微信号:</label>
+              <input className="field" type="text" name="wechat_id" minLength={6} maxLength={20} required />
+            </div>
+
+            <div className="field-item">
+              <label className="field-name" for="mobile">手机号:</label>
+              <input defaultValue="86" name="statecode" className="field state-code" />
+              <input name="mobile" className="field field-mobile" />
+            </div>
+
+            <div className="field-item">
+              <label className="field-name" for="age">年龄:</label>
+              <select name="age" className="select-age">
+                <option>请选择</option>
+                {this.props.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
+              </select>
+            </div>
+
+            <div className="field-item">
+              <label className="field-name" for="note">
+                备注: <br/>
+                余{1400 - this.state.inputWords}字
+              </label>
+              <textarea
+                className="note"
+                name="note"
                 onKeyDown={e => { if ((e.keyCode !== 8) && (e.target.value.length > 1400)) { return e.preventDefault() } } }
-                onKeyUp={e => this.setState({inputWords: e.target.value.length}) }></textarea></label><p className="word-count">余{1400 - this.state.inputWords}字</p></div>
+                onKeyUp={e => this.setState({inputWords: e.target.value.length}) }
+              />
+            </div>
+
             <div className="dg-button-group">
               <a className="dg-button pre-step" onClick={this._switchStep.bind(this, -1)}>上一步</a>
-              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={this.props.stepIndex === this.props.legacyRolesArray.length}>下一步</a>
-              <button className="dg-button submit" hidden={this.props.stepIndex !== this.props.legacyRolesArray.length}>提交</button>
+              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={stepIndex === this.props.legacyRolesArray.length}>下一步</a>
+              <button className="dg-button submit" hidden={stepIndex !== this.props.legacyRolesArray.length}>提交</button>
             </div>
           </fieldset>
         </form>
