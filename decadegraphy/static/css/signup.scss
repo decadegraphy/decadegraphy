@@ -1,7 +1,6 @@
 .sign-up {
   display: flex;
   flex-direction: column;
-  
   .page-one,
   .page-two {
     flex: 1;
@@ -11,62 +10,52 @@
     width: 980px;
     margin: 0 auto;
   }
-
   .hide {
     display: none;
   }
-
   .subtitle {
     color: #fff;
     font-size: 20;
     text-align: center;
   }
-
   .form-item-group {
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin: 40px auto;
   }
-
   .role {
     flex: 1;
     text-align: center;
     margin: 16px;
     padding: 32px 16px;
     box-sizing: border-box;
-
     &.active {
       border: 1px solid #fff;
       border-radius: 4px;
     }
-
     .title {
       color: #fff;
       text-align: center;
       font-weight: 500;
     }
-
     .description {
       color: #fff;
       text-align: center;
     }
   }
-
   .page-one-submit {
     text-align: right;
   }
 
   .fill-role-info {
-
+    border: none;
   }
-
   .field-item {
     display: flex;
     align-items: center;
     margin: 16px 0;
   }
-
   .field-name {
     text-align: right;
     display: inline-block;
@@ -74,18 +63,66 @@
     width: 10em;
     margin: 0 1em 0 0;
   }
-
   .field {
-
+    margin-right: 1em;
   }
-
+  .bind-twitter,
+  .twitter-name {
+    color: #fff;
+  }
   .state-code {
     width: 40px;
     margin-right: -1px;
   }
-
   .note {
     width: 360px;
     height: 120px;
+  }
+}
+
+.timepicker {
+  overflow: hidden;
+  .tip {
+    line-height: 30px;
+    font-size: 13px;
+    color: #fff;
+  }
+  .timepicker-table {
+    border-collapse: collapse;
+    border: 1px solid #fff;
+    font-size: 13px;
+    color: #333;
+    thead {
+      border-bottom: 1px solid #fff;
+      tr {
+        height: 31px;
+        th {
+          &:first-child {
+            border-right: 1px solid #fff;
+          }
+        }
+      }
+    }
+    th {
+      color: #fff;
+      width: 60px;
+    }
+    tbody {
+      tr {
+        border: 1px solid #fff;
+        td {
+          &:first-child {
+            border-right: 1px solid #fff;
+          }
+        }
+      }
+    }
+    td {
+      width: 30px;
+      height: 30px;
+      vertical-align: middle;
+      text-align: center;
+      color: #fff;
+    }
   }
 }

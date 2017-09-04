@@ -195,8 +195,12 @@ class SignUp extends React.Component {
             <p className="field-item">
               <label>
                 <span className="field-name">*Twitter ID:</span>
-                <input className="field" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />
-                {!this.state.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.state.twitterId}</span>}
+                <input className="hide" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />
+                {
+                  !this.state.twitterId
+                    ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a>
+                    : <span className="twitter-name">@{this.state.twitterId}</span>
+                }
               </label>
             </p>
 
@@ -230,7 +234,7 @@ class SignUp extends React.Component {
 
             <div className="field-item">
               <label className="field-name" for="age">年龄:</label>
-              <select name="age" className="select-age">
+              <select name="age" className="field">
                 <option>请选择</option>
                 {this.props.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
               </select>

@@ -1,7 +1,6 @@
 body {
   font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
   font-size: 15px;
-  -webkit-font-smoothing: antialiased;
   font-weight: 300;
   color: #fff;
   background-color: #191919;
@@ -23,7 +22,7 @@ input[type="time"],
 input[type="url"],
 input,
 textarea,
-select { 
+select {
   margin: .25em 0;
   padding: .5em .6em;
   display: inline-block;
@@ -32,6 +31,12 @@ select {
   border-radius: 2px;
   vertical-align: middle;
   box-sizing: border-box;
+}
+
+select {
+  height: 2.25em;
+  border: 1px solid #ccc;
+  background-color: #fff;
 }
 
 .dg-enroll-title {
