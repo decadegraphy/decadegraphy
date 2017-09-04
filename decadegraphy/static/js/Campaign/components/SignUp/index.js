@@ -205,35 +205,35 @@ class SignUp extends React.Component {
             </p>
 
             <div className="field-item">
-              <label className="field-name" for="country">*所在地/首选拍摄地:</label>
+              <label className="field-name" htmlFor="country">*所在地/首选拍摄地:</label>
               <CountryCityComponent />
             </div>
 
             <div ref="fieldsArray">{fieldsArray}</div>
 
             <div className="field-item">
-              <label className="field-name" for="email">*邮箱:</label>
+              <label className="field-name" htmlFor="email">*邮箱:</label>
               <input className="field" type="email" name="email" required />
             </div>
 
             <div className="field-item">
-              <label className="field-name" for="password">*密码:</label>
+              <label className="field-name" htmlFor="password">*密码:</label>
               <input className="field" type="password" name="password" minLength={8} maxLength={20} required />
             </div>
 
             <div className="field-item">
-              <label className="field-name" for="wechat_id">*微信号:</label>
+              <label className="field-name" htmlFor="wechat_id">*微信号:</label>
               <input className="field" type="text" name="wechat_id" minLength={6} maxLength={20} required />
             </div>
 
             <div className="field-item">
-              <label className="field-name" for="mobile">手机号:</label>
+              <label className="field-name" htmlFor="mobile">手机号:</label>
               <input defaultValue="86" name="statecode" className="field state-code" />
               <input name="mobile" className="field field-mobile" />
             </div>
 
             <div className="field-item">
-              <label className="field-name" for="age">年龄:</label>
+              <label className="field-name" htmlFor="age">年龄:</label>
               <select name="age" className="field">
                 <option>请选择</option>
                 {this.props.ages.map((age, i) => <option key={i} value={age}>{age}</option>)}
@@ -241,7 +241,7 @@ class SignUp extends React.Component {
             </div>
 
             <div className="field-item">
-              <label className="field-name" for="note">
+              <label className="field-name" htmlFor="note">
                 备注: <br/>
                 余{1400 - this.state.inputWords}字
               </label>
