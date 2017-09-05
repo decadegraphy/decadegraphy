@@ -21,6 +21,9 @@ function reducer (prevState = initialState, { type, payload }) {
     case events.TWITTER_ID_FETCHED: {
       return handleTwitterIdFetched(prevState, payload)
     }
+    case events.SIGNUP_ROLES_FETCHED: {
+      return handleSignupRolesFetched(prevState, payload)
+    }
   }
   return {...prevState}
 }
@@ -46,6 +49,13 @@ function handleTwitterIdFetched (prevState, { twitterId }) {
   return {
     ...prevState,
     twitterId
+  }
+}
+
+function handleSignupRolesFetched (prevState, { roles }) {
+  return {
+    ...prevState,
+    roles
   }
 }
 

@@ -125,15 +125,7 @@ class SignUp extends React.Component {
   }
 
   _selectedRoleNames () {
-    const roleNames = {
-      photographer: '摄影师',
-      participant: '模特',
-      volunteer: '志愿者'
-    }
-
-    return Object.keys(roleNames)
-      .filter(role => this.props.roles[role])
-      .map(role => roleNames[role])
+    return Helpers.translateRoleNames(this.props.roles)
   }
 
   render () {
