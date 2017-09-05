@@ -31,6 +31,7 @@ class Applicant(models.Model):
     skill = models.IntegerField(null=True, blank=True, choices=SKILLS)
     will = models.IntegerField(null=True, blank=True, choices=SKILLS)
     created_at = models.DateTimeField(auto_now_add=True, editable=True)
+    google_calendar_event_created_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return '{0}({1})'.format(self.user, self.roles)

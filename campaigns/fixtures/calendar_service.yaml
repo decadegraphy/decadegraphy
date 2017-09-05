@@ -1,0 +1,13 @@
+- model: campaigns.applicant
+  pk: 1
+  fields: {campaign: null, user: 1, email: awesome@gmail.com, roles: '', note: null,
+    story: null, planned_date_start: 2017-09-01, planned_date_end: 2017-09-01, participant_optional_cities: null,
+    photographer_optional_city: null, photographer_schedule: null, volunteer_schedule: null,
+    skill: null, will: null, created_at: ! '2017-09-03 19:43:25.997341+00:00', google_calendar_event_created_at: null}
+- model: campaigns.applicant
+  pk: 2
+  fields: {campaign: null, user: 2, email: thrive@gmail.com, roles: '', note: null,
+    story: null, planned_date_start: 2017-09-01, planned_date_end: 2017-09-01, participant_optional_cities: null,
+    photographer_optional_city: null, photographer_schedule: null, volunteer_schedule: null,
+    skill: null, will: null, created_at: ! '2017-09-03 19:44:02.609035+00:00', google_calendar_event_created_at: ! '2017-09-03
+      18:53:21+00:00'}
