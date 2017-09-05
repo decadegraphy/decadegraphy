@@ -3,10 +3,12 @@ from django.db import models
 
 from decadegraphy.users.models import User
 
+
 class Campaign(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=True)
+
 
 SKILLS = (
     (1, '文案、文字编辑、活动策划'),
@@ -14,11 +16,13 @@ SKILLS = (
     (3, '被拍者社群运营管理'),
     (4, '网站开发'),
 )
+
+
 class Applicant(models.Model):
     campaign = models.ForeignKey(Campaign, null=True, blank=True)
     user = models.ForeignKey(User, null=True, blank=True)
     email = models.EmailField()
-    roles = models.CharField(max_length=8)
+    roles = models.CharField(max_length=255)
     note = models.TextField(null=True, blank=True)
 
     story = models.TextField(null=True, blank=True)

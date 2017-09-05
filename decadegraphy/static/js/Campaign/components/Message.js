@@ -36,7 +36,7 @@ class Message extends React.Component {
           if (data) {
             dispatch({
               type: events.SIGNUP_ROLES_FETCHED,
-              payload: { roles: data.roles }
+              payload: { roles: JSON.parse(data.roles) }
             })
             this.setState({
               qrCodes
@@ -58,7 +58,7 @@ class Message extends React.Component {
         <img src="" alt="" className="success-icon" />
         <div className="content">
           <p>报名成功</p>
-          <p>您的身份是：{Helpers.translateRoleNames(roles)}</p>
+          <p>您的身份是：{Helpers.translateRoleNames(roles).join('，')}</p>
           <p>1. 进群前请先阅读<a href="#">活动流程指引与约拍须知</a></p>
           <p>2. 扫描下方二维码加入城市拍摄微信群，开始你的Decadegraphy旅程</p>
           <ul className="qrcode">

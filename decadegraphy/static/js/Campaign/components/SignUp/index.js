@@ -129,8 +129,6 @@ class SignUp extends React.Component {
   }
 
   render () {
-    let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => this.props.legacyRolesArray.indexOf(i + 1) !== -1)
-
     return (
       <div className="sign-up">
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
@@ -145,13 +143,17 @@ class SignUp extends React.Component {
         </div>
 
         <form ref="form" onSubmit={this._submit.bind(this)}>
-          <input name="roles" type="hidden" value={this.props.legacyRolesArray.join(',')} />
+          <input name="roles" type="hidden" value={JSON.stringify(this.props.roles)} />
           <fieldset className="fill-role-info" hidden={this.props.stepIndex === 0}>
             <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你，</h2>
             <p className="field-item"><label><span className="field-name">*Twitter ID:</span><input className="field" type="text" name="twitter_id" value={this.props.twitterId || ''} required hidden />{!this.props.twitterId ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a> : <span className="twitter-name">@{this.props.twitterId}</span>}</label></p>
             <p className="dg-cf field-item"><label><span className="field-name special primary-place">*所在地/首选拍摄地:</span><CountryCityComponent /></label></p>
 
-            <div ref="fieldsArray">{fieldsArray}</div>
+            <div ref="fieldsArray">
+              { this.props.roles.photographer && <PhotographerFields /> }
+              { this.props.roles.participant && <ParticipantFields /> }
+              { this.props.roles.volunteer && <VolunteerFields /> }
+            </div>
 
             <p className="field-item"><label><span className="field-name">*邮箱:</span><input className="field" type="email" name="email" required /></label></p>
             <p className="field-item"><label><span className="field-name">*密码:</span><input className="field" type="password" name="password" minLength={8} maxLength={20} required /></label></p>
