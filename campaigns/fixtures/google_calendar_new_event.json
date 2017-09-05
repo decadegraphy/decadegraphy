@@ -1,19 +1,19 @@
 {
     "kind": "calendar#event",
-    "etag": "\"3008929603858000\"",
-    "id": "2q4pq7r8bsemor5nmuv3esjfj4",
+    "etag": "\"3009204321886000\"",
+    "id": "6nfv53tikarus7sjv4squ0jn8g",
     "status": "tentative",
-    "htmlLink": "https://www.google.com/calendar/event?eid=link_id",
-    "created": "2017-09-03T18:53:21.000Z",
-    "updated": "2017-09-03T18:53:21.929Z",
+    "htmlLink": "https://www.google.com/calendar/event?eid=Nm5mdjUzdGlrYXJ1czdzanY0c3F1MGpuOGcgMmoyc252YW1vZ2tzbGd0cW8wMzYwaXRrcDBAZw",
+    "created": "2017-09-05T09:02:40.000Z",
+    "updated": "2017-09-05T09:02:40.943Z",
     "summary": "@test \u4e0eTest \u7ea6\u62cd",
     "location": "Test",
     "creator": {
-        "email": "<no>@<domain>"
+        "email": "decadegraphy@stable-hologram-178300.iam.gserviceaccount.com"
     },
     "organizer": {
-        "email": "<filtered>@group.calendar.google.com",
-        "displayName": "<secured>",
+        "email": "2j2snvamogkslgtqo0360itkp0@group.calendar.google.com",
+        "displayName": "Test Calendar",
         "self": true
     },
     "start": {
@@ -22,7 +22,7 @@
     "end": {
         "date": "2017-09-01"
     },
-    "iCalUID": "<filtered>@google.com",
+    "iCalUID": "6nfv53tikarus7sjv4squ0jn8g@google.com",
     "sequence": 1,
     "reminders": {
         "useDefault": true

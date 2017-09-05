@@ -13,7 +13,8 @@ API_SCOPES = [GOOGLE_CALENDAR_API_READ_WRITE_SCOPE]
 GOOGLE_CALENDAR_API_NAME = 'calendar'
 GOOGLE_CALENDAR_API_VERSION = 'v3'
 # such information can be access from `service.calendarList().list().execute()`
-PROGRESS_GOOGLE_CALENDAR_ID = '0qo4ij527286dctr302eqkkrao@group.calendar.google.com'
+# TODO: put this in config so that it can point to production calendar id
+PROGRESS_GOOGLE_CALENDAR_ID = '2j2snvamogkslgtqo0360itkp0@group.calendar.google.com'
 
 
 class _MemoryCache(googleapiclient.discovery_cache.base.Cache):
