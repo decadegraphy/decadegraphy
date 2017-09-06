@@ -50,20 +50,52 @@ class Message extends React.Component {
     })
   }
 
+  _renderRoles (propRoles) {
+    const roles = [{
+      name: 'photographer',
+      img: 'https://whale-token-im.b0.upaiyun.com/upload-img/photographer.png',
+      title: '摄影师'
+    },
+    {
+      name: 'participant',
+      img: 'https://whale-token-im.b0.upaiyun.com/upload-img/participant.png',
+      title: '模特'
+    },
+    {
+      name: 'volunteer',
+      img: 'https://whale-token-im.b0.upaiyun.com/upload-img/volunteer.png',
+      title: '志愿者'
+    }].filter(role => propRoles[role.name])
+
+    return roles.map((r, index) => {
+      return (
+        <div className="role" key={r.name}>
+          <img src={r.img} />
+          <p className="title">{r.title}</p>
+        </div>
+      )
+    })
+  }
+
   render () {
     const { roles } = this.props
 
     return (
       <div className="enroll-success">
-        <img src="" alt="" className="success-icon" />
+        <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
         <div className="content">
-          <p>报名成功</p>
-          <p>您的身份是：{Helpers.translateRoleNames(roles).join('，')}</p>
-          <p>1. 进群前请先阅读<a href="#">活动流程指引与约拍须知</a></p>
-          <p>2. 扫描下方二维码加入城市拍摄微信群，开始你的Decadegraphy旅程</p>
-          <ul className="qrcode">
+          <img src="" alt="" className="success-icon" />
+          <p className="caption">报名成功</p>
+          <p className="caption">您的身份是：</p>
+          <div className="roles">{this._renderRoles(roles)}</div>
+          <div className="note">
+            <p>1. 进群前请先阅读<a href="#">活动流程指引与约拍须知</a></p>
+            <p>2. 扫描下方二维码加入城市拍摄微信群，开始你的Decadegraphy旅程</p>
+          </div>
+
+          <div className="qrcode">
             {this.state.qrCodes.map((city, i) => <li key={i}><img src="" alt="" /><span>{city}交流群</span></li>)}
-          </ul>
+          </div>
         </div>
       </div>
     )

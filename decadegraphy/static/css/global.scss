@@ -1,0 +1,76 @@
+body {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: #fff;
+  background-color: #191919;
+}
+
+h1, h2, h3 {
+  font-weight: 300;
+}
+
+[hidden] { display: none; }
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+input,
+textarea,
+select {
+  margin: .25em 0;
+  padding: .5em .6em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px #ddd;
+  border-radius: 2px;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+select {
+  height: 2.25em;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.dg-enroll-title {
+  text-align: center;
+  color: #fff;
+  margin: 0;
+  margin-top: 60px;
+}
+
+.dg-button-group {
+  margin-top: 40px;
+  text-align: right;
+}
+
+.dg-button {
+  border: 1px solid #fff;
+  padding: 6px 12px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  background: transparent;
+  margin: 0 10px;
+}
+
+.dg-icon {
+  border: 1px solid #fff;
+  border-radius: 50%;
+  padding: 6px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  text-align: center;
+  line-height: 9px;
+  margin: 6px;
+}
