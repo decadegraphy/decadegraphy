@@ -90,6 +90,20 @@ class Helpers {
     }
     return data
   }
+
+  static translateRoleNames (roles) {
+    if (!roles) { roles = [] }
+
+    const roleNames = {
+      photographer: '摄影师',
+      participant: '模特',
+      volunteer: '志愿者'
+    }
+
+    return Object.keys(roleNames)
+      .filter(role => roles[role])
+      .map(role => roleNames[role])
+  }
 }
 
 export default Helpers
