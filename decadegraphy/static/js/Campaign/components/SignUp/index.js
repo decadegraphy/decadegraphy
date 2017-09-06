@@ -16,7 +16,6 @@ class SignUp extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      twitterId: null,
       inputWords: 0,
       formData: {}
     }
@@ -31,7 +30,10 @@ class SignUp extends React.Component {
       state = JSON.parse(stateCache) || {}
 
     Helpers.getJSON('/api/users/auth/', (response) => {
-      this.setState({twitterId: response.username ? response.username : null})
+      dispatch({
+        type: events.TWITTER_ID_FETCHED,
+        payload: { twitterId: response.username ? response.username : null }
+      })
     })
 
     if (stateCache !== null) {
@@ -44,7 +46,10 @@ class SignUp extends React.Component {
   _choiceRoles (role, checked) {
     dispatch({
       type: events.SIGNUP_TOGGLE_ROLE,
-      payload: { role, checked }
+      payload: {
+        role: role,
+        checked: checked
+      }
     })
   }
 
@@ -123,18 +128,10 @@ class SignUp extends React.Component {
   }
 
   _selectedRoleNames () {
-    const roleNames = {
-      photographer: '摄影师',
-      participant: '模特',
-      volunteer: '志愿者'
-    }
-
-    return Object.keys(roleNames)
-      .filter(role => this.props.roles[role])
-      .map(role => roleNames[role])
+    return Helpers.translateRoleNames(this.props.roles)
   }
 
-  renderRoles () {
+  _renderRoles () {
     const roles = [{
       name: 'photographer',
       img: 'https://whale-token-im.b0.upaiyun.com/upload-img/photographer.png',
@@ -157,6 +154,7 @@ class SignUp extends React.Component {
     return roles.map((role, index) => {
       const isChecked = this.props.roles[role.name]
       const roleClass = isChecked ? 'role active' : 'role'
+
       return (
         <div className={roleClass} onClick={() => this._choiceRoles(role.name, !isChecked)} key={`${role.name}-${index}`}>
           <img src={role.img} />
@@ -168,38 +166,33 @@ class SignUp extends React.Component {
   }
 
   render () {
-    const { roleNames, stepIndex, legacyRolesArray } = this.props
-    let fieldsArray = [<PhotographerFields key="1" />, <ParticipantFields key="2" />, <VolunteerFields key="3" />].filter((f, i) => legacyRolesArray.indexOf(i + 1) !== -1)
-    const pageOneClass = stepIndex !== 0 ? 'page-one hide' : 'page-one'
-    const pageTwoClass = stepIndex !== 1 ? 'page-two hide' : 'page-two'
+    const pageOneClass = this.props.stepIndex !== 0 ? 'page-one hide' : 'page-one'
+    const pageTwoClass = this.props.stepIndex === 0 ? 'page-two hide' : 'page-two'
 
     return (
       <div className="sign-up">
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
-        <div className={pageOneClass}>
-          <h2 className="subtitle">你想作为{this._selectedRoleNames().join('，')}</h2>
-          <div className="form-item-group">
-            {this.renderRoles()}
-          </div>
 
-          <div className="page-one-submit">
-            <button className="dg-button" disabled={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</button>
+        <div className={pageOneClass} hidden={this.props.stepIndex !== 0}>
+          <h2 className="subtitle">你想作为 _<span style={{textDecoration: 'underline'}}>{this._selectedRoleNames().join('，')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
+          <div className="form-item-group">
+            {this._renderRoles()}
           </div>
+          <div className="page-one-submit"><button className="dg-button" hidden={this._selectedRoleNames().length === 0} disabled={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</button></div>
         </div>
 
         <form className={pageTwoClass} ref="form" onSubmit={this._submit.bind(this)}>
-          <input name="roles" type="hidden" value={legacyRolesArray.join(',')} />
-          <h2 className="subtitle">作为{roleNames[legacyRolesArray[stepIndex - 1] - 1]}的你</h2>
-
+          <input name="roles" type="hidden" value={JSON.stringify(this.props.roles)} />
           <fieldset className="fill-role-info">
+            <h2 className="subtitle">作为{this.props.roleNames[this.props.legacyRolesArray[this.props.stepIndex - 1] - 1]}的你，</h2>
             <p className="field-item">
               <label>
                 <span className="field-name">*Twitter ID:</span>
-                <input className="hide" type="text" name="twitter_id" value={this.state.twitterId || ''} required hidden />
+                <input className="hide" type="text" name="twitter_id" value={this.props.twitterId || ''} required hidden />
                 {
-                  !this.state.twitterId
+                  !this.props.twitterId
                     ? <a className="bind-twitter" href="/accounts/twitter/login/?process=login">绑定推特账号</a>
-                    : <span className="twitter-name">@{this.state.twitterId}</span>
+                    : <span className="twitter-name">@{this.props.twitterId}</span>
                 }
               </label>
             </p>
@@ -209,7 +202,11 @@ class SignUp extends React.Component {
               <CountryCityComponent />
             </div>
 
-            <div ref="fieldsArray">{fieldsArray}</div>
+            <div ref="fieldsArray">
+              { this.props.roles.photographer && <PhotographerFields /> }
+              { this.props.roles.participant && <ParticipantFields /> }
+              { this.props.roles.volunteer && <VolunteerFields /> }
+            </div>
 
             <div className="field-item">
               <label className="field-name" htmlFor="email">*邮箱:</label>
@@ -252,11 +249,10 @@ class SignUp extends React.Component {
                 onKeyUp={e => this.setState({inputWords: e.target.value.length}) }
               />
             </div>
-
             <div className="dg-button-group">
               <a className="dg-button pre-step" onClick={this._switchStep.bind(this, -1)}>上一步</a>
-              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={stepIndex === legacyRolesArray.length}>下一步</a>
-              <button className="dg-button submit" hidden={stepIndex !== legacyRolesArray.length}>提交</button>
+              <a className="dg-button next-step" onClick={this._switchStep.bind(this, 1)} hidden={this.props.stepIndex === this.props.legacyRolesArray.length}>下一步</a>
+              <button className="dg-button submit" hidden={this.props.stepIndex !== this.props.legacyRolesArray.length}>提交</button>
             </div>
           </fieldset>
         </form>
@@ -264,7 +260,6 @@ class SignUp extends React.Component {
     )
   }
 }
-
 SignUp.defaultProps = {
   ages: ['0-10', '11-19', '20-25', '26-30', '31-35', '36-40', '41-45', '45-50', '50-60', '60+'],
   roleNames: ['摄影师', '模特', '志愿者'],
@@ -272,7 +267,7 @@ SignUp.defaultProps = {
 }
 
 function mapStateToProps (state, props) {
-  const { roles, stepIndex } = state.campaigns
+  const { roles, stepIndex, twitterId } = state.campaigns
 
   let legacyRolesArray = []
   if (roles.photographer) {
@@ -287,7 +282,8 @@ function mapStateToProps (state, props) {
   return {
     roles,
     legacyRolesArray,
-    stepIndex
+    stepIndex,
+    twitterId
   }
 }
 
