@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import { PhoneNumberUtil } from 'google-libphonenumber'
 import Helpers from '../../../helpers.js'
 import { connect } from 'react-redux'
 import dispatch from 'store'
@@ -26,8 +27,8 @@ class SignUp extends React.Component {
   }
 
   componentDidMount () {
-    let stateCache = window.localStorage.getItem('state'),
-      state = JSON.parse(stateCache) || {}
+    const stateCache = window.localStorage.getItem('state')
+    const state = JSON.parse(stateCache) || {}
 
     Helpers.getJSON('/api/users/auth/', (response) => {
       dispatch({
@@ -54,19 +55,18 @@ class SignUp extends React.Component {
   }
 
   _switchStep (n, e) {
-    let formElements = this.refs.form.querySelectorAll('input, textarea, select'),
-      newStepIndex = this.props.stepIndex + n,
-      fields = this.refs.fieldsArray.children,
-      stateCache = window.localStorage.getItem('state'),
-      state = JSON.parse(stateCache) || {},
-      name
+    const formElements = this.refs.form.querySelectorAll('input, textarea, select')
+    const newStepIndex = this.props.stepIndex + n
+    const fields = this.refs.fieldsArray.children
+    const stateCache = window.localStorage.getItem('state')
+    const state = JSON.parse(stateCache) || {}
 
     for (let i = 0; i < fields.length; i++) {
       fields[i].style.display = (i === newStepIndex - 1) ? '' : 'none'
     }
 
     for (let i = 0; i < formElements.length; i++) {
-      name = formElements[i].name
+      const name = formElements[i].name
       if (state.hasOwnProperty('formData') && state.formData.hasOwnProperty(name)) {
         formElements[i].value = state.formData[name]
       }
@@ -83,8 +83,8 @@ class SignUp extends React.Component {
   }
 
   _cacheForm (e) {
-    let formData = this.state.formData,
-      name = e.target.name
+    const formData = this.state.formData
+    const name = e.target.name
 
     formData[name] = e.target.value
     this.setState({formData: formData})
@@ -92,19 +92,22 @@ class SignUp extends React.Component {
 
   _submit (e) {
     e.preventDefault()
-
-    let data = Helpers.serializeForm(this.refs.form),
-      scheduleBin
+    const phoneUtil = PhoneNumberUtil.getInstance()
+    const data = Helpers.serializeForm(this.refs.form)
 
     // Format
     data['mobile'] = data.mobile ? `${data.statecode} ${data.mobile}` : ''
+    if (!phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(`+${data.mobile}`, data.statecode))) {
+      window.alert('手机号格式错误')
+    }
+
     if (!data.planned_date_end) {
       delete data['planned_date_end']
     }
 
     ['photographer', 'participant', 'volunteer'].forEach((role) => {
       if (data.hasOwnProperty(role + '_schedule')) {
-        scheduleBin = [...Array(28).keys()].map(k => (data[role + '_schedule'].indexOf(k.toString()) === -1) ? '0' : '1').join('')
+        const scheduleBin = [...Array(28).keys()].map(k => (data[role + '_schedule'].indexOf(k.toString()) === -1) ? '0' : '1').join('')
         data[role + '_schedule'] = parseInt(scheduleBin, 2)
       }
     })
@@ -122,7 +125,7 @@ class SignUp extends React.Component {
         window.location.href = this.props.messageURL('success')
         this.refs.form.reset()
       } else {
-        alert(JSON.stringify(response))
+        window.alert(JSON.stringify(response))
       }
     })
   }
@@ -225,8 +228,8 @@ class SignUp extends React.Component {
 
             <div className="field-item">
               <label className="field-name" htmlFor="mobile">手机号:</label>
-              <input defaultValue="86" name="statecode" className="field state-code" />
-              <input name="mobile" className="field field-mobile" />
+              <input defaultValue="86" name="statecode" className="field state-code" maxLength={3} />
+              <input name="mobile" className="field field-mobile" maxLength={11} />
             </div>
 
             <div className="field-item">
@@ -268,8 +271,8 @@ SignUp.defaultProps = {
 
 function mapStateToProps (state, props) {
   const { roles, stepIndex, twitterId } = state.campaigns
+  const legacyRolesArray = []
 
-  let legacyRolesArray = []
   if (roles.photographer) {
     legacyRolesArray.push(1)
   }

@@ -8,10 +8,15 @@
     "rules": {
         "react/jsx-uses-react": 1,
         "react/jsx-uses-vars": 1,
-        "one-var": 0
+        "one-var": 0,
+        "prefer-const": ["error", {
+            "destructuring": "any",
+            "ignoreReadBeforeAssign": false
+        }]
     },
     "globals": {
         "XMLHttpRequest": true,
         "FormData": true
-    }
+    },
+
 }
