@@ -177,8 +177,9 @@ class SignUp extends React.Component {
         <h1 className="dg-enroll-title">Decadegraphy活动报名</h1>
 
         <div className={pageOneClass} hidden={this.props.stepIndex !== 0}>
-          <h2 className="subtitle">你想作为 _<span style={{textDecoration: 'underline'}}>{this._selectedRoleNames().join('，')}</span>_ 参与这个活动<span className="notice">请选择角色</span></h2>
-          <div className="form-item-group">
+
+          <h2 className="subtitle">想作为 _<span style={{textDecoration: 'underline'}}>{this._selectedRoleNames().join('，')}</span>_ 参与这个活动 <a href="/accounts/twitter/login/?process=login" className={this.props.twitterId ? 'hide' : ''}>请先绑定Twitter账号</a><span className="notice hide">请选择角色</span></h2>
+          <div className={this.props.twitterId ? 'form-item-group' : 'hide'}>
             {this._renderRoles()}
           </div>
           <div className="page-one-submit"><button className="dg-button" hidden={this._selectedRoleNames().length === 0} disabled={this._selectedRoleNames().length === 0} onClick={this._switchStep.bind(this, 1)}>下一步</button></div>
