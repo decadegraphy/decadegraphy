@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 import { Provider } from 'react-redux'
 import { store } from 'store'
-import { Header, Home, About } from './front'
+import { Header, Home, About, Footer } from './front'
 
 import '../css/main.scss'
 
@@ -25,6 +25,7 @@ if (document.getElementById('app')) {
           <Header />
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
+          <Footer />
         </div>
       </Router>
     </Provider>

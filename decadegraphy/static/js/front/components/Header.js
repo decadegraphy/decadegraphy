@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
-import Helpers from '../../helpers.js'
 
-class Header extends React.Component {
+export default class Header extends React.Component {
   constructor (props) {
     super(props)
   }
@@ -16,7 +15,7 @@ class Header extends React.Component {
         <div className="container">
           <h1 className="header-title">
             <a href="/">
-              <img src="/static/img/logo.jpg" alt="旬影" className="header-logo" />
+              <img src="/static/img/logo_header.jpg" alt="旬影" className="header-logo" />
             </a>
           </h1>
           <ul className="global-nav">
@@ -27,7 +26,7 @@ class Header extends React.Component {
             <li className="locale">
               <a href="javascript:void(0)">CN</a>
               <span className="dg-split-line">|</span>
-              <a href="javascript:void(0)" style={{ color: "#B8B8B8" }}>EN</a>
+              <a href="javascript:void(0)" style={{ color: '#B8B8B8' }}>EN</a>
             </li>
           </ul>
         </div>
@@ -35,4 +34,3 @@ class Header extends React.Component {
     )
   }
 }
-export default Header
