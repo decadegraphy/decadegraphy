@@ -1,0 +1,47 @@
+body {
+  background: #fff;
+  font-size: 14px;
+  color: #333;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 1100px;
+}
+
+.dg-split-line {
+  margin: 0 14px;
+  color: #9B9B9B;
+}
+.global-header {
+  height: 100px;
+
+  .header-title {
+    float: left;
+  }
+}
+
+
+
+.global-nav {
+  float: right;
+  margin: 0;
+  line-height: 100px;
+  li {
+    display: inline-block;
+    width: 90px;
+    text-align: center;
+    a {
+      font-family: NotoSansHans-Regular;
+      color: #333;
+      text-decoration: none;
+    }
+  }
+  .locale a {
+    font-weight: bold;
+  }
+}
+
