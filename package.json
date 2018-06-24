@@ -31,7 +31,8 @@
     "style-loader": "^0.18.2",
     "webpack": "^3.3.0",
     "webpack-bundle-tracker": "^0.2.0",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^2.6.1",
+    "cloudinary-react": "^1.0.6"
   },
   "scripts": {
     "build:dist": "webpack -p",
