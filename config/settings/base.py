@@ -65,7 +65,7 @@ LOCAL_APPS = [
     'decadegraphy.users.apps.UsersConfig',
     # Your stuff: custom apps go here
     'restapi',
-    'campaigns',
+    'works',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
