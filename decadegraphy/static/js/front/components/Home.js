@@ -1,8 +1,7 @@
 import React from 'react'
 import {Image, Transformation} from 'cloudinary-react'
+import InfiniteScroll from 'infinite-scroll'
 import Helpers from '../../helpers.js'
-
-import publicIdList from '../../works.json'
 
 const imageSizes = [
   [[0.392, 0.294], [0.188, 0.121], [0.188, 0.121], [0.392, 0.1566]],
@@ -15,6 +14,24 @@ const imageSizes = [
 class Home extends React.Component {
   constructor (props) {
     super(props)
+
+    this.state = {
+      publicIdList: []
+    }
+  }
+
+  componentDidMount () {
+    Helpers.getJSON('/api/works/', response => {
+      const publicIdList = response.results.map(r => r.cover)
+      this.setState({publicIdList})
+    })
+
+    new InfiniteScroll('.works', {
+      path: '/api/works/?page={{#}}',
+      checkLastPage: true,
+      responseType: 'document',
+      scrollThreshold: 400
+    })
   }
 
   render () {
@@ -30,17 +47,17 @@ class Home extends React.Component {
         </div>
         <div className="works">
           <div className="row-1">
-            {publicIdList.splice(0, 4).map((id, i) => {
+            {this.state.publicIdList.splice(0, 4).map((id, i) => {
               return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[0][i][0]} height={imageSizes[0][i][1]} crop="fill" className={`work p-${i}`} />
             })}
           </div>
           <div className="row-2">
-            {publicIdList.splice(0, 3).map((id, i) => {
+            {this.state.publicIdList.splice(0, 3).map((id, i) => {
               return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[1][i][0]} height={imageSizes[1][i][1]} crop="fill" />
             })}
           </div>
           <div className="row-3">
-            {publicIdList.map((id, i) => {
+            {this.state.publicIdList.map((id, i) => {
               i = i % 3
               return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[2][i][0]} height={imageSizes[2][i][1]} crop="fill" />
             })}
