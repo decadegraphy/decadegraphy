@@ -18,7 +18,6 @@ urlpatterns = [
 
     # Your stuff: custom urls includes go here
     url(r'^api/', include('restapi.urls')),
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
 
     url(r'^(.*)$', lambda s, r: HttpResponse(Template('{% extends "base.html" %}{% block content %}<div id="app" />{% endblock %}').render(RequestContext(s)))),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
