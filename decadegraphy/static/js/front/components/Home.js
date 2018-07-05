@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import {Image, Transformation} from 'cloudinary-react'
 import InfiniteScroll from 'infinite-scroll'
 import Helpers from '../../helpers.js'
@@ -11,22 +12,45 @@ const imageSizes = [
   return row.map(s => [Math.round(window.screen.width * s[0]), Math.round(window.screen.width * s[1])])
 })
 
+class WorkModalContent extends React.Component {
+  render () {
+    const work = this.props.work
+    return (
+      <div>
+        <div className="work-modal-container">
+          <div className="album">
+            <Image cloudName="dgcdn" publicId={work.cover} height={window.innerHeight} crop="fill" />
+          </div>
+          <div className="intro-container">
+            <div className="intro">
+              <div className="user"><div className="username">@{work.participant}</div></div>
+              <p>{work.story}</p>
+            </div>
+            <div className="actions"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
 class Home extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      publicIdList: []
+      isModalOpen: false,
+      works: []
     }
   }
 
   componentDidMount () {
     Helpers.getJSON('/api/works/', response => {
-      const publicIdList = response.results.map(r => r.cover)
-      this.setState({publicIdList})
+      const works = response.results
+      this.setState({works})
     })
 
-    new InfiniteScroll('.works', {
+    const infiniteScroll = new InfiniteScroll('.works', {
       path: '/api/works/?page={{#}}',
       checkLastPage: true,
       responseType: 'document',
@@ -34,7 +58,15 @@ class Home extends React.Component {
     })
   }
 
+  _toggleModal (publicId) {
+    const DOM = this.refs.workContent
+    const work = this.state.works.filter(w => w.cover === publicId)[0]
+    !this.state.isModalOpen ? ReactDOM.render(<WorkModalContent work={work} />, DOM) : ReactDOM.unmountComponentAtNode(DOM)
+    this.setState({isModalOpen: !this.state.isModalOpen})
+  }
+
   render () {
+    const publicIdList = this.state.works.map(r => r.cover).slice(0)
     return (
       <div className="home">
         <div className="slides">
@@ -46,21 +78,21 @@ class Home extends React.Component {
           </div>
         </div>
         <div className="works">
-          <div className="row-1">
-            {this.state.publicIdList.splice(0, 4).map((id, i) => {
-              return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[0][i][0]} height={imageSizes[0][i][1]} crop="fill" className={`work p-${i}`} />
-            })}
-          </div>
-          <div className="row-2">
-            {this.state.publicIdList.splice(0, 3).map((id, i) => {
-              return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[1][i][0]} height={imageSizes[1][i][1]} crop="fill" />
-            })}
-          </div>
-          <div className="row-3">
-            {this.state.publicIdList.map((id, i) => {
-              i = i % 3
-              return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[2][i][0]} height={imageSizes[2][i][1]} crop="fill" />
-            })}
+          {[4, 3, 3].map(i => publicIdList.splice(0, i)).map((idArray, rowIndex) => {
+            return (
+              <div key={rowIndex} className={`row-${rowIndex + 1}`}>
+                {idArray.map((id, i) => {
+                  return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[rowIndex][i][0]} height={imageSizes[rowIndex][i][1]} crop="fill" className="work" onClick={() => this._toggleModal(id)} />
+                })}
+              </div>
+            )
+          })}
+        </div>
+        <div className="modal" style={{display: this.state.isModalOpen ? 'block' : 'none'}}>
+          <div className="top-gradient" />
+          <div className="modal-content">
+            <span className="close" onClick={() => this._toggleModal() }>&times;</span>
+            <div ref="workContent" />
           </div>
         </div>
       </div>

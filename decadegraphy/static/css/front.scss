@@ -84,25 +84,7 @@ body {
       grid-template-rows: calc(100vw * 0.121) calc(100vw * 0.156);
       grid-column-gap: $gap;
       grid-row-gap: $gap;
-      .p-0 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 1;
-        grid-row-end: 2;
-      }
-      .p-1 {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 1;
-        grid-row-end: 1;
-      }
-      .p-2 {
-        grid-column-start: 3;
-        grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 1;
-      }
-      .p-3 {
+      img+img+img+img {
         grid-column-start: 2;
         grid-column-end: 4;
         grid-row-start: 2;
@@ -132,5 +114,55 @@ body {
   }
   .social-media {
     float: right;
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.85);
+  .close {
+    position: fixed;
+    top: 1.4%;
+    right: 3%;
+    z-index: 3;
+    font-size: 27px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .top-gradient {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+    height: 10.6%;
+    opacity: 0.54;
+    background-image: linear-gradient(-180deg, #000000 0%, rgba(0,0,0,0.00) 100%);
+  }
+  .work-modal-container {
+    margin: 0 auto;
+    max-width: 80%;
+    text-align: center;
+    .intro-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 2%;
+      width: 100%;
+      height: 16%;
+      background: rgba(0, 0, 0, .5);
+      color: #fff;
+    }
+    .intro {
+      margin: 0 auto;
+      width: 80%;
+      p { text-align: left; }
+    }
   }
 }
