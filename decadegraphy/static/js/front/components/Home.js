@@ -13,20 +13,38 @@ const imageSizes = [
 })
 
 class WorkModalContent extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      photos: this.props.work.photos
+    }
+  }
+
+  _next () {
+    this.state.photos.unshift(this.state.photos.splice(-1)[0])
+    this.setState({photos: this.state.photos})
+  }
+
   render () {
     const work = this.props.work
     return (
       <div>
         <div className="work-modal-container">
           <div className="album">
-            <Image cloudName="dgcdn" publicId={work.cover} height={window.innerHeight} crop="fill" />
+            {this.state.photos.map(photo => <Image key={photo.cloud_id} cloudName="dgcdn" publicId={photo.cloud_id} height={window.innerHeight} crop="fill" onClick={() => this._next() } />)}
           </div>
           <div className="intro-container">
             <div className="intro">
-              <div className="user"><div className="username">@{work.participant}</div></div>
+              <div className="user"><a href={`https://twitter.com/${work.participant}`}><img src={`/static/avatar/${work.participant}.jpg`} height="60" width="60" /></a><div className="name">拍摄模特<br/>@{work.participant}</div></div>
+              <div className="user"><a href={`https://twitter.com/${work.photographer}`}><img src={`/static/avatar/${work.photographer}.jpg`} height="60" width="60" /></a><div className="name">摄影师<br/>@{work.photographer}</div></div>
+              <div className="meta"><i className="icon-location" />{work.location}<br/><i className="icon-date" />{work.publication_date}</div>
               <p>{work.story}</p>
             </div>
-            <div className="actions"></div>
+            <div className="actions">
+              <a><i className="icon-like" />{work.likes}</a>
+              <a><i className="icon-comment" />{work.comments}</a>
+              <a><i className="icon-share" />{work.shares}</a>
+            </div>
           </div>
         </div>
       </div>
@@ -74,7 +92,7 @@ class Home extends React.Component {
             <li>你有故事，我们有镜头<br/>光和影，酸和甜，色块和黑白，被快门酿成酒。<br/>十年后，我们一起，喝个痛快。</li>
           </ul>
           <div className="slides-control">
-            {[0, 1, 2].map(i => { return <a key={i} href="#">●</a> })}
+            {[0, 1, 2].map(i => { return <a key={i} href="javascript:void(0)">●</a> })}
           </div>
         </div>
         <div className="works">

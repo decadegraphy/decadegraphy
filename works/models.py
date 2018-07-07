@@ -5,9 +5,11 @@ class Work(models.Model):
     participant = models.CharField(max_length=32)
     cover = models.OneToOneField('Photo', related_name='cover', null=True, blank=True)
     story = models.TextField()
-    likes = models.IntegerField()
-    comments = models.IntegerField()
+    likes = models.IntegerField(default=0)
+    comments = models.IntegerField(default=0)
+    shares = models.IntegerField(default=0)
     twitter_id = models.CharField(max_length=64, null=True, blank=True)
+    location = models.CharField(max_length=128, null=True, blank=True)
     publication_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
