@@ -2,11 +2,9 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 
 export default class Header extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
-  componentDidMount () {
+  _toggleNav () {
+    const isNone = (document.getElementsByClassName('global-nav')[0].clientHeight === 0)
+    this.refs.globalNav.style.display = isNone ? 'block' : 'none'
   }
 
   render () {
@@ -18,7 +16,7 @@ export default class Header extends React.Component {
               <img src="/static/img/logo_header.jpg" alt="旬影" className="header-logo" />
             </a>
           </h1>
-          <ul className="global-nav">
+          <ul className="global-nav" ref="globalNav">
             <li><Link to="/about">关于</Link></li>
             <li><a href="javascript:void(0)">博客</a></li>
             <li><a href="javascript:void(0)">支持</a></li>
@@ -29,6 +27,7 @@ export default class Header extends React.Component {
               <a href="javascript:void(0)" style={{ color: '#B8B8B8' }}>EN</a>
             </li>
           </ul>
+          <button className="nav-toggle-button" onClick={() => this._toggleNav()}>☰</button>
         </div>
       </header>
     )

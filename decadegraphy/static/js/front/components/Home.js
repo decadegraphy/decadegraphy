@@ -9,7 +9,13 @@ const imageSizes = [
   [[0.282, 0.250], [0.204, 0.250], [0.282, 0.250]],
   [[0.172, 0.216], [0.204, 0.216], [0.392, 0.216]]
 ].map(row => {
-  return row.map(s => [Math.round(window.screen.width * s[0]), Math.round(window.screen.width * s[1])])
+  const width = window.screen.width
+  if (width < 767) {
+    return row.map(s => [width, 'auto'])
+  }
+  else {
+    return row.map(s => [Math.round(width * s[0]), Math.round(width * s[1])])
+  }
 })
 
 class WorkModalContent extends React.Component {
@@ -31,12 +37,12 @@ class WorkModalContent extends React.Component {
       <div>
         <div className="work-modal-container">
           <div className="album">
-            {this.state.photos.map(photo => <Image key={photo.cloud_id} cloudName="dgcdn" publicId={photo.cloud_id} height={window.innerHeight} crop="fill" onClick={() => this._next() } />)}
+            {this.state.photos.map(photo => <Image key={photo.cloud_id} cloudName="dgcdn" publicId={photo.cloud_id} onClick={() => this._next() }>{(window.screen.width < 767) ? <Transformation width={window.innerWidth} crop="fill" /> : <Transformation height={window.innerHeight} crop="fill" />}</Image>)}
           </div>
           <div className="intro-container">
             <div className="intro">
-              <div className="user"><a href={`https://twitter.com/${work.participant}`}><img src={`/static/avatar/${work.participant}.jpg`} height="60" width="60" /></a><div className="name">拍摄模特<br/>@{work.participant}</div></div>
-              <div className="user"><a href={`https://twitter.com/${work.photographer}`}><img src={`/static/avatar/${work.photographer}.jpg`} height="60" width="60" /></a><div className="name">摄影师<br/>@{work.photographer}</div></div>
+              <div className="user"><a href={`https://twitter.com/${work.participant}`}><img src={`/static/avatar/${work.participant}.jpg`} /></a><div className="name">拍摄模特<br/>@{work.participant}</div></div>
+              <div className="user"><a href={`https://twitter.com/${work.photographer}`}><img src={`/static/avatar/${work.photographer}.jpg`} /></a><div className="name">摄影师<br/>@{work.photographer}</div></div>
               <div className="meta"><i className="icon-location" />{work.location}<br/><i className="icon-date" />{work.publication_date}</div>
               <p>{work.story}</p>
             </div>
@@ -100,7 +106,7 @@ class Home extends React.Component {
             return (
               <div key={rowIndex} className={`row-${rowIndex + 1}`}>
                 {idArray.map((id, i) => {
-                  return <Image cloudName="dgcdn" key={id} publicId={id} width={imageSizes[rowIndex][i][0]} height={imageSizes[rowIndex][i][1]} crop="fill" className="work" onClick={() => this._toggleModal(id)} />
+                  return <Image cloudName="dgcdn" publicId={id} key={id} className="work" onClick={() => this._toggleModal(id)} >{(imageSizes[rowIndex][i][1] === 'auto') ? <Transformation width={imageSizes[rowIndex][i][0]} crop="fill"/> : <Transformation width={imageSizes[rowIndex][i][0]} height={imageSizes[rowIndex][i][1]} crop="fill"/>}</Image>
                 })}
               </div>
             )
