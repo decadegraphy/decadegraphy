@@ -9,12 +9,9 @@ from django.template import RequestContext, Template
 
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
-    url(settings.ADMIN_URL, admin.site.urls),
+    url(r'^admin/', admin.site.urls),
 
-    # User management
-    url(r'^users/', include('decadegraphy.users.urls', namespace='users')),
     url(r'^accounts/social/login/cancelled/$', RedirectView.as_view(url='/campaigns/signup', permanent=False), name='socialaccount_login_cancelled'),
-    url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
     url(r'^api/', include('restapi.urls')),

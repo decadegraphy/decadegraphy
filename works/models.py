@@ -3,7 +3,7 @@ from django.db import models
 class Work(models.Model):
     photographer = models.CharField(max_length=32)
     participant = models.CharField(max_length=32)
-    cover = models.OneToOneField('Photo', related_name='cover', null=True, blank=True)
+    cover = models.OneToOneField('Photo', related_name='cover', on_delete=models.CASCADE, null=True, blank=True)
     story = models.TextField()
     likes = models.IntegerField(default=0)
     comments = models.IntegerField(default=0)
@@ -18,7 +18,7 @@ class Work(models.Model):
 
 class Photo(models.Model):
     cloud_id = models.CharField(max_length=128)
-    work = models.ForeignKey(Work)
+    work = models.ForeignKey(Work, on_delete=models.CASCADE)
     file_format = models.CharField(max_length=8)
 
     def __str__(self):

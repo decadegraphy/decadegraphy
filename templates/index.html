@@ -1,0 +1,372 @@
+<!doctype html>
+<html><head><title>Decadegraphy 活动介绍</title><meta charset="UTF-8"><link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic|Roboto:400,700,700italic,400italic" type="text/css"><style>/*
+ * Copyright 2014 Quip
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+body {
+    font-size: 15px;
+    color: #333;
+    background: #fff;
+    padding: 60px 95px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern";
+    font-kerning: normal;
+    -moz-font-feature-settings: "kern";
+    -webkit-font-feature-settings: "kern";
+}
+
+/* Headings */
+h1, h2, h3, th {
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+    margin: 0;
+    margin-top: 1.25em;
+    margin-bottom: 0.75em;
+}
+
+h1 {
+    font-size: 35px;
+    line-height: 42px;
+}
+
+h1:first-child {
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 18px;
+    line-height: 22px;
+}
+
+h3 {
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+/* Body text */
+body, p, ul, ol, td {
+    font-family: 'Crimson Text', serif;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+blockquote, q {
+    display: block;
+    margin: 1em 0;
+    font-style: italic;
+}
+
+blockquote a, q a {
+    text-decoration: underline;
+}
+
+blockquote {
+    padding-left: 10px;
+    border-left: 4px solid #a6a6a6;
+}
+
+q {
+    color: #a6a6a6;
+    line-height: 40px;
+    font-size: 24px;
+    text-align: center;
+    quotes: none;
+}
+
+q a {
+    color: #a6a6a6;
+}
+
+code, pre {
+    font-family: Consolas, "Liberation Mono", Menlo, "Courier Prime Web", Courier, monospace;
+    background: #f3f3f3;
+}
+
+code {
+    padding: 1px;
+    margin: 0 -1px;
+    border-radius: 3px;
+}
+
+pre {
+    display: block;
+    line-height: 20px;
+    text-shadow: 0 1px white;
+    padding: 5px 5px 5px 30px;
+    white-space: nowrap;
+    position: relative;
+    margin: 1em 0;
+}
+
+pre:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    border-left: solid 1px #dadada;
+}
+
+/* Lists */
+div[data-section-style="5"],
+div[data-section-style="6"],
+div[data-section-style="7"] {
+    margin: 12px 0;
+}
+
+ul {
+    padding: 0 0 0 40px;
+}
+
+ul li {
+    margin-bottom: 0.4em;
+}
+
+/* Bulleted list */
+div[data-section-style="5"] ul {
+    list-style-type: disc;
+}
+div[data-section-style="5"] ul ul {
+    list-style-type: circle;
+}
+div[data-section-style="5"] ul ul ul {
+    list-style-type: square;
+}
+div[data-section-style="5"] ul ul ul ul {
+    list-style-type: disc;
+}
+div[data-section-style="5"] ul ul ul ul ul {
+    list-style-type: circle;
+}
+div[data-section-style="5"] ul ul ul ul ul ul {
+    list-style-type: square;
+}
+
+/* Numbered list */
+div[data-section-style="6"] ul {
+    list-style-type: decimal;
+}
+div[data-section-style="6"] ul ul {
+    list-style-type: lower-alpha;
+}
+div[data-section-style="6"] ul ul ul {
+    list-style-type: lower-roman;
+}
+div[data-section-style="6"] ul ul ul ul {
+    list-style-type: decimal;
+}
+div[data-section-style="6"] ul ul ul ul ul {
+    list-style-type: lower-alpha;
+}
+div[data-section-style="6"] ul ul ul ul ul ul {
+    list-style-type: lower-roman;
+}
+
+/* Checklist */
+div[data-section-style="7"] ul {
+    list-style-type: none;
+}
+
+div[data-section-style="7"] ul li:before {
+    content: "\2610";
+    position: absolute;
+    display: inline;
+    margin-right: 1.2em;
+    margin-left: -1.2em;
+}
+
+div[data-section-style="7"] ul li.parent:before {
+    content: "";
+}
+
+div[data-section-style="7"] ul li.parent {
+    font-weight: bold;
+}
+
+div[data-section-style="7"] ul li.checked {
+    text-decoration: line-through;
+}
+
+div[data-section-style="7"] ul li.checked:before {
+    content: "\2611";
+    text-decoration: none;
+}
+
+/* Tables */
+div[data-section-style="8"] {
+    margin: 12px 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border: solid 1px #7c7c7c;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+    table-layout: fixed;
+    position: relative;
+}
+
+table th, table td {
+    padding: 2px 2px 0;
+    min-width: 1.5em;
+    word-wrap: break-word;
+}
+
+table th {
+    border-bottom: 1px solid #ccc;
+    background: #f0f0f0;
+    font-weight: bold;
+    vertical-align: bottom;
+    color: #3a4449;
+    text-align: center;
+}
+
+table td {
+    padding-top: 0;
+    border-left: 1px solid #e1e1e1;
+    border-top: 1px solid #e1e1e1;
+    vertical-align: top;
+}
+
+table td.bold {
+    font-weight: bold;
+}
+
+table td.italic {
+    font-style: italic;
+}
+
+table td.underline {
+    text-decoration: underline;
+}
+
+table td.strikethrough {
+    text-decoration: line-through;
+}
+
+table td.underline.strikethrough {
+    text-decoration: underline line-through;
+}
+
+table td:first-child {
+    border-left: hidden;
+}
+
+table tr:first-child td {
+    border-top: hidden;
+}
+
+/* Images */
+div[data-section-style="11"] {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div[data-section-style="11"][data-section-float="0"] {
+    clear: both;
+    text-align: center;
+}
+
+div[data-section-style="11"][data-section-float="1"] {
+    float: left;
+    clear: left;
+    margin-right: 20px;
+}
+
+div[data-section-style="11"][data-section-float="2"] {
+    float: right;
+    clear: right;
+    margin-left: 20px;
+}
+
+div[data-section-style="11"] img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+hr {
+    width: 70px;
+    margin: 20px auto;
+}
+</style></head><body><h1 id='BZYACAtR0dv'>                                   Decadegraphy 活动介绍</h1>
+
+<div data-section-style='11' style='max-width:100%'><img src='https://quip.com/blob/BZYAAAILwEk/UDFV4mVxDgljNuV8mGcGmQ?a=1KzrmS7qFAkoeRfkZNDx5EHLAnx7tjiPfOV7sLJcKa8a' id='BZYACAQ7wqs' alt='' width='800' height='569'></img></div><br/>
+
+<div data-section-style='5'><ul id='BZYACAKW6qE'><li id='BZYACAS4vbS' class='' value='1'>这是一个发起于 Twitter，并在 Twitter 上自我组织而成的活动。
+
+<br/></li><li id='BZYACAz51YC' class=''>这是一个从 2017年7月开始，跨越10年的行为艺术。
+
+<br/></li><li id='BZYACA1U1xI' class=''>这是一个遍及全球 20 个国家和地区，拥有 20 多位摄影师、300 位参与者的免费拍摄项目。
+
+<br/></li><li id='BZYACAQSZwU' class=''>这是一个由 300 人一起书写的开放性的故事。
+
+<br/></li></ul></div><br/>
+
+<h2 id='BZYACAun7Mo'>活动时间：</h2>
+
+第一阶段：2017年 7 月 30 日启动拍摄，至 2017 年 12 月 31 日截止。<br/>
+
+第二阶段：拍摄活动中止 9 年。<br/>
+
+第三阶段：2027 年 1 月 1 日重启拍摄，至 2027 年 12 月 31 日底截止。<br/>
+
+<br/>
+
+<h2 id='BZYACAHPnOO'>活动资格：</h2>
+
+ 填写下列表格报名，拥有 Twitter ID 即可参加。<br/>
+
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSec55sLhWOLEfJfPDUqajZbr-H1gcZlst2GN2Losgk503sWxg/viewform">https://docs.google.com/forms/d/e/1FAIpQLSec55sLhWOLEfJfPDUqajZbr-H1gcZlst2GN2Losgk503sWxg/viewform</a> <br/>
+
+<br/>
+
+<h2 id='BZYACAThCIb'>活动内容：</h2>
+
+由推友摄影师拍摄推友参与者的故事。照片作品现在一张，十年后一张。题材不限，主题不限，表现形式不限，时间、地点均由双方研究后共同决定。<br/>
+
+<br/>
+
+<h2 id='BZYACA55OZk'>活动规则：</h2>
+
+<div data-section-style='5'><ul id='BZYACAk2PSN'><li id='BZYACAHNNN7' class='' value='1'>第一次拍摄不满意的，可以再约其他摄影师多次拍摄。但是，一切都应遵守双方自愿原则。
+
+<br/></li><li id='BZYACAl30yB' class=''>摄影师会遵循模特自愿原则，酌情录制一段短视频，模特必须配合摄影师拍一段视频；图片成果会选择一张或多张发布到项目网站上；模特最终可以获得几张作品，也由双方协商确定。
+
+<br/></li><li id='BZYACAbUTPD' class=''>活动本身对参与者和摄影师均不收取费用，但日后照片可能会用于网站形式的展览或出版。
+
+<br/></li><li id='BZYACAlK3Gb' class=''>拍摄期间，可能产生的活动费用（比如交通或餐饮等）由摄影师和参与者之间协商承担。
+
+<br/></li></ul></div><br/>
+
+<h2 id='BZYACAh03hU'>欢迎加入：</h2>
+
+漂在异乡的你，孤独地刷着推的你，无论是怎样的你，来找我们用镜头记录下你的故事。<br/>
+
+<br/>
+
+摄影技术良好，喜欢走入人群听故事的你，来做我们的摄影师。<br/>
+
+<br/>
+
+有脑洞又有趣，想要为下一个十年留下一点东西的你，来做我们的志愿者。<br/>
+
+</body></html>
