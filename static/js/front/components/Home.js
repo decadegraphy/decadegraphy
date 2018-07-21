@@ -12,8 +12,7 @@ const imageSizes = [
   const width = window.screen.width
   if (width < 767) {
     return row.map(s => [width, 'auto'])
-  }
-  else {
+  } else {
     return row.map(s => [Math.round(width * s[0]), Math.round(width * s[1])])
   }
 })

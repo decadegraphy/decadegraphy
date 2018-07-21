@@ -77,4 +77,6 @@ lib/python*/site-packages
 /pip-selfcheck.json
 
 # Webpack static bundles
-/decadegraphy/static/webpack_bundles/*
+/static/webpack_bundles/*
+
+db.sqlite3

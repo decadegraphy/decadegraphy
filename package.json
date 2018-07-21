@@ -31,13 +31,18 @@
     "redux": "^3.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^3.3.0",
     "webpack-bundle-tracker": "^0.2.0",
     "webpack-dev-server": "^2.6.1"
   },
   "scripts": {
-    "build:dist": "webpack -p",
-    "start:dev": "webpack-dev-server --open --hot --inline",
-    "watch": "webpack --watch"
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development webpack --progress --hide-modules",
+    "watch": "webpack --watch --progress --hide-modules",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "webpack-dev-server --open --inline --hot",
+    "prod": "npm run production",
+    "production": " webpack -p --progress --hide-modules"
   }
 }

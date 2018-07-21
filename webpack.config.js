@@ -8,15 +8,13 @@ const APP_DIR = path.resolve(__dirname, 'decadegraphy', 'static', 'js')
 module.exports = {
   context: __dirname,
   entry: [
-    //'webpack-dev-server/client?http://localhost:3000',
-    //'webpack/hot/only-dev-server',
-    './decadegraphy/static/js/index'
+    './static/js/index'
   ],
   resolve: {
     modules: [APP_DIR, 'node_modules']
   },
   output: {
-    path: path.resolve('./decadegraphy/static/webpack_bundles/'),
+    path: path.resolve('./static/webpack_bundles/'),
     filename: '[name].dev.js'
   },
   module: {

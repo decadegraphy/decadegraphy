@@ -17,10 +17,10 @@ export default class Header extends React.Component {
             </a>
           </h1>
           <ul className="global-nav" ref="globalNav">
-            <li><Link to="/about">关于</Link></li>
-            <li><a href="javascript:void(0)">博客</a></li>
-            <li><a href="javascript:void(0)">支持</a></li>
-            <li><a href="javascript:void(0)">加入</a></li>
+            <li><a href="https://twitter.com/Decadegraphy/status/894124009721257984">关于</a></li>
+            <li><a href="javascript:void(0)" onClick={() => alert('Coming soon')}>博客</a></li>
+            <li><a href="https://twitter.com/Decadegraphy">支持</a></li>
+            <li><a href="https://decadegraphy.slack.com/">加入</a></li>
             <li className="locale">
               <a href="javascript:void(0)">CN</a>
               <span className="dg-split-line">|</span>
